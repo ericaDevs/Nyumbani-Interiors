@@ -16,8 +16,8 @@ def login_user(request):
         return redirect('dashboard:overview')
 
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "")
 
         if not username or not password:
             messages.error(request, "Please fill in all fields!")
