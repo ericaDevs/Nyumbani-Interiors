@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            Interior Designs
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="font-mont bg-white text-[#0D0D0D]">
+    {% url 'home' as home_url %}
+    {% url 'services' as services_url %}
+    {% url 'portfolio:portfolio' as portfolio_url %}
+    {% url 'about' as about_url %}
+    {% url 'contacts' as contacts_url %}
+    {% url 'quote' as quote_url %}
+    {% url 'appointment' as appointment_url %}
+    {% url 'consultation' as consultation_url %}
+
+    <nav class="sticky top-0 z-50 border-b-4 border-b-[#710912] bg-white/75 backdrop-blur-lg md:relative">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 sm:py-5">
+            <a href="{{ home_url }}"><img src="{% static 'images/logo.png' %}" alt="Nyumbani Interiors Logo" class="h-20"></a>
+
+            <div class="hidden gap-8 md:flex text-sm font-medium text-[#362822]">
+                <a href="{{ home_url }}" class="transition hover:text-[#710912]{% if request.path == home_url %} text-[#710912] font-semibold{% endif %}">Home</a>
+                <a href="{{ services_url }}" class="transition hover:text-[#710912]{% if request.path == services_url %} text-[#710912] font-semibold{% endif %}">Services</a>
+                <a href="{{ portfolio_url }}" class="transition hover:text-[#710912]{% if request.path == portfolio_url %} text-[#710912] font-semibold{% endif %}">Portfolio</a>
+                <a href="{{ about_url }}" class="transition hover:text-[#710912]{% if request.path == about_url %} text-[#710912] font-semibold{% endif %}">About</a>
+                <a href="{{ contacts_url }}" class="transition hover:text-[#710912]{% if request.path == contacts_url or request.path == quote_url or request.path == appointment_url or request.path == consultation_url %} text-[#710912] font-semibold{% endif %}">Contact</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ consultation_url }}" class="hidden sm:inline-flex rounded-full border border-[#710912] px-5 py-2 text-sm font-semibold text-[#710912] transition hover:bg-[#710912] hover:text-white">Book a Consultation</a>
+                <button id="siteMenuToggle" type="button" class="inline-flex items-center justify-center rounded-lg border border-[#710912] p-2 text-[#710912] md:hidden" aria-label="Open navigation menu" aria-controls="siteMobileMenu" aria-expanded="false">
+                    <span class="flex flex-col gap-1" aria-hidden="true">
+                        <span class="block h-0.5 w-5 bg-current"></span>
+                        <span class="block h-0.5 w-5 bg-current"></span>
+                        <span class="block h-0.5 w-5 bg-current"></span>
+                    </span>
+                    <span class="sr-only">Menu</span>
+                </button>
+            </div>
+        </div>
+        <div id="siteMobileMenu" class="hidden absolute top-full left-0 w-full border-t border-[#EFE5D2] bg-white px-6 py-5 shadow-lg md:hidden">
+            <button id="siteMenuClose" type="button" class="absolute right-4 top-4 text-[#710912]" aria-label="Close navigation menu">&times;</button>
+            <div class="flex flex-col gap-4 text-sm font-medium text-[#362822]">
+                <a href="{{ home_url }}" class="hover:text-[#710912]">Home</a>
+                <a href="{{ services_url }}" class="hover:text-[#710912]">Services</a>
+                <a href="{{ portfolio_url }}" class="hover:text-[#710912]">Portfolio</a>
+                <a href="{{ about_url }}" class="hover:text-[#710912]">About</a>
+                <a href="{{ contacts_url }}" class="hover:text-[#710912]">Contact</a>
+                <a href="{{ consultation_url }}" class="mt-1 rounded-full border border-[#710912] px-5 py-2 text-center font-semibold text-[#710912]">Book a Consultation</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    <footer id="footer" class="bg-[#0D0D0D] text-[#EFE5D2]">
+        <div class="mx-auto max-w-7xl px-6 py-16">
+            <div class="grid gap-10 lg:grid-cols-3 lg:items-start">
+                <div>
+                    <p class="font-semibold text-xl text-[#EFE5D2]">Nyumbani Interiors</p>
+                    <p class="mt-4 max-w-md leading-7 text-[#EFE5D2]/90">Crafting thoughtful interiors with a luxurious balance of texture, tone, and function. Every space should feel beautifully curated and comfortable.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-lg mb-4 text-[#EFE5D2]">Quick Links</p>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="{% url 'home' %}" class="hover:text-[#C28D39]">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-[#C28D39]">Our Story</a></li>
+                        <li><a href="{% url 'portfolio:portfolio' %}" class="hover:text-[#C28D39]">Portfolio</a></li>
+                        <li><a href="{% url 'contacts' %}" class="hover:text-[#C28D39]">Contacts</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-semibold text-lg mb-4 text-[#EFE5D2]">Contact</p>
+                    <p class="text-sm leading-7 text-[#EFE5D2]/90">Ready to create a space you love? Reach out for a consultation and let us design an interior that feels truly yours.</p>
+                    <p class="mt-5 text-sm font-semibold">Email: hello@nyumbaniinteriors.com</p>
+                    <p class="text-sm font-semibold">Phone: +254 766 2334 2334</p>
+                </div>
+            </div>
+            <div class="mt-10 border-t border-[#362822]/20 pt-6 text-sm text-[#EFE5D2]/80">© 2026 Nyumbani Interiors. Designed for modern living.</div>
+        </div>
+    </footer>
+    <script src="{% static 'scripts/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Dashboard | Consultations
+{% endblock %}
+
+{% block content %}
+    <section id="section-consultations" class="tab-section hidden space-y-6">
+        <h1 class="text-2xl font-bold text-champagne">Design Consultations</h1>
+        <div class="bg-espresso rounded-lg border border-gold/10 p-6 text-xs text-champagne/70">
+            <p>Consultation requests and notes mapped from your models will render here.</p>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="dashboard-analytics">
+        <div class="flex items-center justify-between gap-3 p-5 pr-3 rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Projects</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ total_projects|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/layers.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+
+        <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Appointments</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ total_appointments|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/appointment.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+
+        <div class="dashboard-primary-card gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Consultations</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ total_consultations|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/customer-support.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+
+        <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Contacts and Inquiries</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ contacts|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/customer-service.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+    </div>
+
+    <!-- Consultation Table -->
+    <div class="bg-[#EFE5D2] rounded-lg border border-gold/10 overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-champagne">
+                <thead class="bg-midnight/80 border-b border-gold/10 uppercase text-[10px] text-gold tracking-wider">
+                    <tr>
+                        <th class="p-4">Name</th>
+                        <th class="p-4">Email</th>
+                        <th class="p-4">Property Type</th>
+                        <th class="p-4">Budget</th>
+                        <th class="p-4">Preference</th>
+                        <th class="p-4">Message</th>
+                        <th class="p-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gold/10">
+                    {% for consultation in consultations %}
+                    <tr class="">
+                        <td class="p-4 text-champagne/70">{{ consultation.name }}</td>
+                        <td class="p-4 font-bold text-champagne">{{ consultation.email }}</td>
+                        <td class="p-4 text-champagne/70">{{ consultation.property_type }}</td>
+                        <td class="p-4 text-champagne/70">{{ consultation.budget }}</td>
+                        <td class="p-4 text-champagne/70">{{ consultation.preference }}</td>
+                        <td class="p-4 text-champagne/70 max-w-xs truncate">{{ consultation.message }}</td>
+
+                        <td class="p-4 text-[#8b7f67] flex items-center justify-end text-sm gap-3">
+                            <button type="button" 
+                                class="p-1 text-gold hover:text-[#710912] transition-colors cursor-pointer" 
+                                title="View Consultation"
+                                data-name="{{ consultation.name|escapejs }}"
+                                data-email="{{ consultation.email|escapejs }}"
+                                data-property="{{ consultation.property_type|escapejs }}"
+                                data-budget="{{ consultation.budget|escapejs }}"
+                                data-preference="{{ consultation.preference|escapejs }}"
+                                data-message="{{ consultation.message|escapejs }}"
+                                onclick="openViewConsultationModal(this)">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+
+                            <a href="mailto:{{ consultation.email }}?subject=Consultation%20Follow-up%20-%20{{ consultation.property_type|urlencode }}" 
+                               class="p-1 text-gold hover:text-[#710912] transition-colors" 
+                               title="Reply via Email">
+                                <i data-lucide="reply" class="w-4 h-4"></i>
+                            </a>
+
+                            <form action="{% url 'dashboard:deleteConsultation' id=consultation.id %}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this consultation record permanently?');">
+                                {% csrf_token %}
+                                <button type="submit" class="p-1 text-red-600 hover:text-red-800 transition-colors cursor-pointer" title="Delete Consultation">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="p-8 text-center text-xs text-champagne/50">No Consultations found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: View Consultation Details -->
+    <div id="viewConsultationModal" class="fixed inset-0 bg-[#EFE5D2]/60 backdrop-blur-xs z-50 hidden items-center justify-center font-mont p-4 transition-opacity duration-300">
+        <!-- Dialog Box Container -->
+        <div class="bg-white m-auto border border-gold/30 rounded-xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative text-champagne">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b border-gold/20 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-[#710912]/10 flex items-center justify-center text-[#710912]">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-[#710912] tracking-wide">Consultation Details</h3>
+                </div>
+                <button type="button" onclick="closeViewConsultationModal()" class="text-champagne/60 cursor-pointer hover:text-gold transition-colors p-1 rounded-lg">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Body Details -->
+            <div class="space-y-4 text-xs">
+                <div class="grid grid-cols-2 gap-4 bg-[#fbf9f5] p-3 rounded-lg border border-gold/10">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Client Name</span>
+                        <p id="view-c-name" class="font-bold text-sm text-[#710912] mt-0.5"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Email Address</span>
+                        <p id="view-c-email" class="text-champagne font-medium mt-0.5 break-all"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 bg-[#fbf9f5] p-3 rounded-lg border border-gold/10">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Property Type</span>
+                        <p id="view-c-property" class="text-champagne font-semibold mt-0.5"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Budget</span>
+                        <p id="view-c-budget" class="text-champagne font-semibold mt-0.5"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Preference</span>
+                        <p id="view-c-preference" class="text-champagne font-semibold mt-0.5"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-[10px] uppercase font-bold text-champagne/60 block mb-1">Project Details / Message</span>
+                    <div id="view-c-message" class="bg-[#fbf9f5] p-3 rounded-lg border border-gold/10 text-champagne text-xs leading-relaxed max-h-36 overflow-y-auto whitespace-pre-wrap"></div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="pt-4 border-t border-gold/20 flex items-center justify-between gap-3">
+                <a id="view-c-reply-btn" href="#" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-[#EFE5D2] text-[#710912] font-bold text-xs hover:bg-[#e0d0b2] transition-colors flex-1 text-center">
+                    <i data-lucide="reply" class="w-3.5 h-3.5"></i>
+                    <span>Reply Email</span>
+                </a>
+                <button type="button" onclick="closeViewConsultationModal()" class="px-5 py-2.5 cursor-pointer rounded text-white font-bold bg-[#710912] hover:bg-[#57070d] transition-colors text-xs uppercase tracking-wider shadow-md flex-1">Close</button>
+            </div>
+        </div> 
+    </div>
+
+    <script>
+        function openViewConsultationModal(button) {
+            const modal = document.getElementById('viewConsultationModal');
+            
+            const name = button.getAttribute('data-name');
+            const email = button.getAttribute('data-email');
+            const property = button.getAttribute('data-property');
+            const budget = button.getAttribute('data-budget');
+            const preference = button.getAttribute('data-preference');
+            const message = button.getAttribute('data-message');
+            
+            document.getElementById('view-c-name').textContent = name || 'N/A';
+            document.getElementById('view-c-email').textContent = email || 'N/A';
+            document.getElementById('view-c-property').textContent = property || 'N/A';
+            document.getElementById('view-c-budget').textContent = budget || 'N/A';
+            document.getElementById('view-c-preference').textContent = preference || 'N/A';
+            document.getElementById('view-c-message').textContent = message || 'No message provided.';
+            
+            const replyBtn = document.getElementById('view-c-reply-btn');
+            replyBtn.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent('Consultation Follow-up - ' + property)}`;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (window.lucide) { lucide.createIcons(); }
+        }
+
+        function closeViewConsultationModal() {
+            const modal = document.getElementById('viewConsultationModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.getElementById('viewConsultationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeViewConsultationModal();
+            }
+        });
+    </script>
+{% endblock %}

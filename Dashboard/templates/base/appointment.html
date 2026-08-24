@@ -1,0 +1,241 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Dashboard | Appointments
+{% endblock %}
+
+{% block content %}
+    <section id="section-appointments" class="tab-section hidden space-y-6">
+        <h1 class="text-2xl font-bold text-champagne">Booked Appointments</h1>
+        <div class="bg-espresso rounded-lg border border-gold/10 p-6 text-xs text-champagne/70">
+            <p>Appointments table mapped from your Django booking model will render here.</p>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+        <div class="dashboard-analytics">
+            <div class="flex items-center justify-between gap-3 p-5 pr-3 rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Projects</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ total_projects|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/layers.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+
+            <div class="dashboard-primary-card gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Appointments</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ total_appointments|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/appointment.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+
+            <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Consultations</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ total_consultation|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/customer-support.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+
+            <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Contacts and Inquiries</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ contacts|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/customer-service.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+        </div>
+
+    <!-- Appointment Table -->
+    <div class="bg-[#EFE5D2] rounded-lg border border-gold/10 overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-champagne">
+                <thead class="bg-midnight/80 border-b border-gold/10 uppercase text-[10px] text-gold tracking-wider">
+                    <tr>
+                        <th class="p-4">Name</th>
+                        <th class="p-4">Phone Number</th>
+                        <th class="p-4">Email</th>
+                        <th class="p-4">Date & Time</th>
+                        <th class="p-4 text-right">Type</th>
+                        <th class="p-4 text-right">Message</th>
+                        <th class="p-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gold/10">
+                    {% for appointment in appointments %}
+                    <tr class="">
+                        <td class="p-4 text-champagne/70">{{ appointment.name }}</td>
+                        <td class="p-4 font-bold text-champagne">{{ appointment.phone_number }}</td>
+                        <td class="p-4 text-champagne/70">{{ appointment.email }}</td>
+                        <td class="p-4 text-champagne/70">{{ appointment.date }} | {{ appointment.time }}</td>
+                        <td class="p-4 text-champagne/70">{{ appointment.type }}</td>
+                        <td class="p-4 text-champagne/70">{{ appointment.message }}</td>
+
+                        <td class="p-4 text-[#8b7f67] flex items-center justify-end text-sm gap-3">
+                            <button type="button" 
+                                class="p-1 text-gold hover:text-[#710912] transition-colors cursor-pointer" 
+                                title="View Appointment"
+                                data-name="{{ appointment.name|escapejs }}"
+                                data-phone="{{ appointment.phone_number|escapejs }}"
+                                data-email="{{ appointment.email|escapejs }}"
+                                data-date="{{ appointment.date }}"
+                                data-time="{{ appointment.time }}"
+                                data-type="{{ appointment.type|escapejs }}"
+                                data-message="{{ appointment.message|escapejs }}"
+                                onclick="openViewAppointmentModal(this)">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+
+                            <a href="mailto:{{ appointment.email }}?subject=Appointment%20Follow-up%20-%20{{ appointment.type|urlencode }}" 
+                               class="p-1 text-gold hover:text-[#710912] transition-colors" 
+                               title="Reply via Email">
+                                <i data-lucide="reply" class="w-4 h-4"></i>
+                            </a>
+
+                            <form action="{% url 'dashboard:deleteAppointment' id=appointment.id %}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this appointment permanently?');">
+                                {% csrf_token %}
+                                <button type="submit" class="p-1 text-red-600 hover:text-red-800 transition-colors cursor-pointer" title="Delete Appointment">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="p-8 text-center text-xs text-champagne/50">No Appointments found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <!-- Modal: View Appointment Details -->
+    <div id="viewAppointmentModal" class="fixed inset-0 bg-[#EFE5D2]/60 backdrop-blur-xs z-50 hidden items-center justify-center font-mont p-4 transition-opacity duration-300">
+        <!-- Dialog Box Container -->
+        <div class="bg-white m-auto border border-gold/30 rounded-xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative text-champagne">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b border-gold/20 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-[#710912]/10 flex items-center justify-center text-[#710912]">
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-[#710912] tracking-wide">Appointment Details</h3>
+                </div>
+                <button type="button" onclick="closeViewAppointmentModal()" class="text-champagne/60 cursor-pointer hover:text-gold transition-colors p-1 rounded-lg">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Body Details -->
+            <div class="space-y-4 text-xs">
+                <div class="grid grid-cols-2 gap-4 bg-[#fbf9f5] p-3 rounded-lg border border-gold/10">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Client Name</span>
+                        <p id="view-name" class="font-bold text-sm text-[#710912] mt-0.5"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Service Type</span>
+                        <p id="view-type" class="font-semibold text-sm text-gold mt-0.5"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Email Address</span>
+                        <p id="view-email" class="text-champagne font-medium mt-0.5 break-all"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Phone Number</span>
+                        <p id="view-phone" class="text-champagne font-medium mt-0.5"></p>
+                    </div>
+                </div>
+
+                <div class="bg-[#fbf9f5] p-3 rounded-lg border border-gold/10 grid grid-cols-2 gap-4">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Scheduled Date</span>
+                        <p id="view-date" class="text-champagne font-semibold mt-0.5"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Scheduled Time</span>
+                        <p id="view-time" class="text-champagne font-semibold mt-0.5"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-[10px] uppercase font-bold text-champagne/60 block mb-1">Message / Notes</span>
+                    <div id="view-message" class="bg-[#fbf9f5] p-3 rounded-lg border border-gold/10 text-champagne text-xs leading-relaxed max-h-36 overflow-y-auto whitespace-pre-wrap"></div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="pt-4 border-t border-gold/20 flex items-center justify-between gap-3">
+                <a id="view-reply-btn" href="#" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-[#EFE5D2] text-[#710912] font-bold text-xs hover:bg-[#e0d0b2] transition-colors flex-1 text-center">
+                    <i data-lucide="reply" class="w-3.5 h-3.5"></i>
+                    <span>Reply Email</span>
+                </a>
+                <button type="button" onclick="closeViewAppointmentModal()" class="px-5 py-2.5 cursor-pointer rounded text-white font-bold bg-[#710912] hover:bg-[#57070d] transition-colors text-xs uppercase tracking-wider shadow-md flex-1">Close</button>
+            </div>
+        </div> 
+    </div>
+
+    <script>
+        function openViewAppointmentModal(button) {
+            const modal = document.getElementById('viewAppointmentModal');
+            
+            const name = button.getAttribute('data-name');
+            const phone = button.getAttribute('data-phone');
+            const email = button.getAttribute('data-email');
+            const date = button.getAttribute('data-date');
+            const time = button.getAttribute('data-time');
+            const type = button.getAttribute('data-type');
+            const message = button.getAttribute('data-message');
+            
+            document.getElementById('view-name').textContent = name || 'N/A';
+            document.getElementById('view-type').textContent = type || 'N/A';
+            document.getElementById('view-email').textContent = email || 'N/A';
+            document.getElementById('view-phone').textContent = phone || 'N/A';
+            document.getElementById('view-date').textContent = date || 'N/A';
+            document.getElementById('view-time').textContent = time || 'N/A';
+            document.getElementById('view-message').textContent = message || 'No message provided.';
+            
+            const replyBtn = document.getElementById('view-reply-btn');
+            replyBtn.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent('Appointment Follow-up - ' + type)}`;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (window.lucide) { lucide.createIcons(); }
+        }
+
+        function closeViewAppointmentModal() {
+            const modal = document.getElementById('viewAppointmentModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.getElementById('viewAppointmentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeViewAppointmentModal();
+            }
+        });
+    </script>
+{% endblock %}
+

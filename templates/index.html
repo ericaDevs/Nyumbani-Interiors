@@ -1,0 +1,694 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Home | Interior Designs{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <style>
+      #projects article > div > a {
+        margin-top: auto;
+        padding-top: 1.5rem;
+        width: fit-content;
+        border-bottom: 2px solid #c28d39;
+        padding-bottom: 0.25rem;
+      }
+
+      #projects article > div > a:hover {
+        border-color: #710912;
+      }
+    </style>
+  </head>
+  <body class="font-mont">
+    <nav
+      class="sticky top-0 z-200 md:z-50 border-b-4 border-b-[#710912] bg-white/95 backdrop-blur-xl"
+    >
+      <div
+        class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5"
+      >
+        <section class="w-full md:w-1/4">
+          <a href="/" class="w-22"
+            ><img
+              class="h-22 pr-3 md:border-r-4 border-[#710912]"
+              src="{% static 'images/logo.png' %}"
+              alt="Nyumbani Interiors Logo"
+          /></a>
+        </section>
+
+        <section
+          class="hidden w-full md:flex md:w-3/4 flex-col items-end text-sm font-medium text-[#362822]"
+        >
+          <div
+            class="flex w-full flex-col gap-4 px-6 py-2 sm:w-auto sm:flex-row sm:items-center sm:justify-end"
+          >
+            <div
+              class="flex flex-wrap items-center justify-center gap-2 text-sm text-[#362822]"
+            >
+              <span
+                class="flex items-center font-semibold justify-center gap-2 text-[#710912] pr-4"
+                >Contact us
+                <span
+                  class="text-[#1e1d1d] flex items-center justify-center gap-2 decoration-none mr-3 text-sm"
+                >
+                  <i data-lucide="phone"></i> +254 766 2334 2334
+                </span>
+                |
+              </span>
+              <span class="font-semibold text-[#710912] ml-3">Follow us</span>
+              <a
+                href="#"
+                class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition"
+                aria-label="Instagram"
+              >
+                <img
+                  src="{% static 'images/instagram.png' %}"
+                  alt="instagram"
+                />
+              </a>
+
+              <a
+                href="#"
+                class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition"
+                aria-label="Pinterest"
+              >
+                <img
+                  src="{% static 'images/pinterest.png' %}"
+                  alt="instagram"
+                />
+              </a>
+
+              <a
+                href="#"
+                class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition"
+                aria-label="facebook"
+              >
+                <img src="{% static 'images/facebook.png' %}" alt="instagram" />
+              </a>
+
+              <a
+                href="#"
+                class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition"
+                aria-label="tiktok"
+              >
+                <img src="{% static 'images/tik-tok.png' %}" alt="instagram" />
+              </a>
+            </div>
+          </div>
+
+          <span class="block h-px w-[82%] mt-3 mb-3 bg-[#710912]"></span>
+
+          <div
+            class="mx-auto flex max-w-7xl items-center justify-between px-6 gap-5"
+          >
+            <div
+              class="hidden gap-8 md:flex text-sm mr-4 font-medium text-[#362822]"
+            >
+              <a href="{% url 'home' %}" class="text-[#710912]">Home</a>
+              <a href="{% url 'services' %}" class="hover:text-[#710912]"
+                >Services</a
+              >
+              <a
+                href="{% url 'portfolio:portfolio' %}"
+                class="hover:text-[#710912]"
+                >Portfolio</a
+              >
+              <a href="{% url 'about' %}" class="hover:text-[#710912]">About</a>
+              <a href="{% url 'contacts' %}" class="hover:text-[#710912]"
+                >Contact</a
+              >
+            </div>
+
+            <a
+              href="{% url 'appointment' %}"
+              class="rounded-full border bg-[#710912] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#570209] hover:text-white"
+              >Book an Appointment</a
+            >
+
+            <a
+              href="{% url 'consultation' %}"
+              class="rounded-full bg-[#C28D39] px-5 py-2 text-sm font-semibold text-black hover:bg-[#b97f23] hover:text-black transition"
+              >Book a Consultation</a
+            >
+          </div>
+        </section>
+
+        <button
+          id="siteMenuToggle"
+          type="button"
+          class="inline-flex items-center justify-center rounded-lg border border-[#710912] p-2 text-[#710912] md:hidden"
+          aria-label="Open navigation menu"
+          aria-controls="siteMobileMenu"
+          aria-expanded="false"
+        >
+          <span class="flex flex-col gap-1" aria-hidden="true">
+            <span class="block h-0.5 w-5 bg-current"></span>
+            <span class="block h-0.5 w-5 bg-current"></span>
+            <span class="block h-0.5 w-5 bg-current"></span>
+          </span>
+          <span class="sr-only">Menu</span>
+        </button>
+
+        <div
+          id="siteMobileMenu"
+          class="hidden absolute top-full left-0 w-full border-t border-[#EFE5D2] bg-white px-6 py-5 shadow-lg md:hidden"
+        >
+          <button
+            id="siteMenuClose"
+            type="button"
+            class="absolute right-4 top-4 text-[#710912]"
+            aria-label="Close navigation menu"
+          >
+            &times;
+          </button>
+          <div class="flex flex-col gap-4 text-sm font-medium text-[#362822]">
+            <a href="{% url 'home' %}" class="hover:text-[#710912]">Home</a>
+            <a href="{% url 'services' %}" class="hover:text-[#710912]"
+              >Services</a
+            >
+            <a
+              href="{% url 'portfolio:portfolio' %}"
+              class="hover:text-[#710912]"
+              >Portfolio</a
+            >
+            <a href="{% url 'about' %}" class="hover:text-[#710912]">About</a>
+            <a href="{% url 'contacts' %}" class="hover:text-[#710912]"
+              >Contact</a
+            >
+            <a
+              href="{% url 'consultation' %}"
+              class="mt-1 rounded-full border border-[#710912] px-5 py-2 text-center font-semibold text-[#710912]"
+              >Book a Consultation</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section
+      id="hero"
+      class="relative overflow-hidden h-[80%] bg-cover bg-center pb-8"
+      style="
+        background-image:
+          linear-gradient(rgba(13, 13, 13, 0.55), rgba(13, 13, 13, 0.75)),
+          url(https://i.pinimg.com/736x/83/13/b0/8313b00c983c93585b06eda731f9c65c.jpg);
+      "
+    >
+      <div class="absolute inset-0 bg-black/15"></div>
+      <div
+        class="flex flex-col p-4 md:relative z-10 max-w-4xl m-auto text-center space-y-6 mt-5 pt-4"
+      >
+        <div class="flex items-center justify-center gap-3">
+          <span class="w-8 h-px bg-gold"></span>
+          <p class="text-sm uppercase tracking-[0.35em] text-[#EFE5D2]">
+            Interiors that feel curated
+          </p>
+        </div>
+        <h1 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+          Create inviting spaces with timeless comfort and elevated materials.
+        </h1>
+        <p class="mx-auto max-w-2xl text-base leading-8 text-[#EFE5D2]/90">
+          From luxury living rooms to serene bedroom sanctuaries, we design
+          interiors that reflect your personality and make every room feel
+          effortless.
+        </p>
+        <div
+          class="w-full z-100 flex flex-col md:flex-row flex-wrap justify-center items-center gap-4"
+        >
+          <a
+            href="{% url 'portfolio:portfolio' %}"
+            class="inline-flex items-center justify-center rounded-full bg-[#710912] px-16 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20"
+            >View Projects</a
+          >
+          <a
+            href="{% url 'about' %}"
+            class="inline-flex items-center justify-center rounded-full bg-[#C28D39] px-16 py-3 text-sm font-semibold text-[#362822]"
+            >Our Story</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <section class="font-mont bg-midnight py-20 px-6 md:px-12">
+      <div
+        class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+      >
+        <!-- Left Column: Main Image with Overlapping Stat Box -->
+        <div class="lg:col-span-5 relative">
+          <div
+            class="rounded-lg overflow-hidden border border-gold/10 bg-espresso shadow-2xl"
+          >
+            <img
+              src="https://i.pinimg.com/1200x/a2/49/e5/a249e5a09de096b6182a5d230ef833e3.jpg"
+              alt="Modern Dining Space"
+              class="w-full h-95 object-cover"
+            />
+          </div>
+
+          <!-- Overlapping Stats Card -->
+          <div
+            class="absolute bottom-4 right-0 transform translate-x-4 lg:translate-x-8 bg-[#C28D39] p-6 text-black rounded-lg shadow-2xl space-y-6 max-w-50"
+          >
+            <div>
+              <h3 class="font-mont font-bold text-3xl md:text-4xl text-gold">
+                120+
+              </h3>
+              <p
+                class="text-xs text-champagne/70 mt-1 uppercase tracking-wider"
+              >
+                Projects Completed
+              </p>
+            </div>
+            <div class="border-t border-gold/10 pt-4">
+              <h3 class="font-mont font-bold text-3xl md:text-4xl text-gold">
+                98%
+              </h3>
+              <p
+                class="text-xs text-champagne/70 mt-1 uppercase tracking-wider"
+              >
+                Client Satisfaction
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center Column: About Us Text Content -->
+        <div class="lg:col-span-4 space-y-6 pl-0 lg:pl-6">
+          <span class="text-xs font-bold text-gold tracking-widest uppercase"
+            >ABOUT US</span
+          >
+
+          <h2
+            class="font-mont font-bold text-3xl md:text-4xl text-champagne leading-tight"
+          >
+            Designing Spaces That Inspire
+          </h2>
+
+          <p class="text-champagne/70 text-sm leading-relaxed">
+            Our mission is to create timeless interiors that reflect your
+            personality, enhance comfort, and elevate everyday living.
+          </p>
+
+          <div class="pt-2">
+            <a
+              href="{% url 'about' %}"
+              class="inline-flex items-center gap-3 bg-[#710912] hover:bg-[#710912]/80 text-white text-xs font-bold py-3.5 px-6 rounded uppercase tracking-wider transition-all duration-300 group"
+            >
+              <span>MORE ABOUT US</span>
+              <span class="group-hover:translate-x-1 transition-transform"
+                >&rarr;</span
+              >
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column: Secondary Portrait Showcase Image -->
+        <div class="hidden md:block col-span-3">
+          <div
+            class="rounded-lg overflow-hidden border border-gold/10 bg-espresso shadow-xl"
+          >
+            <img
+              src="https://i.pinimg.com/736x/7b/00/ae/7b00ae1647c9d104ec61d61c1c83ecb6.jpg"
+              alt="Illuminated Shelf Decor"
+              class="w-full h-95 object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="our-story" class="bg-[#EFE5D2] py-20">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div class="space-y-6">
+            <p
+              class="text-sm uppercase tracking-[0.35em] font-semibold text-[#710912]"
+            >
+              Our Story
+            </p>
+            <h2
+              class="text-3xl font-bold leading-tight"
+              style="color: var(--color-midnight)"
+            >
+              Designed for warm living, thoughtful details, and extraordinary
+              comfort.
+            </h2>
+            <p class="text-base leading-8 text-[#362822]/90">
+              We are a boutique interior design studio that blends artful
+              styling with practical design. Our process begins with listening,
+              then layering rich textures, custom finishes, and natural
+              materials that feel luxurious without being fussy.
+            </p>
+          </div>
+          <div class="overflow-hidden rounded-lg shadow-lg">
+            <img
+              src="https://i.pinimg.com/736x/76/4f/42/764f42d88950b6e5f9097aa24e6bd720.jpg"
+              alt="about us image"
+              class="w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-us" class="py-20">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div class="space-y-6">
+            <p class="text-sm uppercase tracking-[0.35em] text-[#710912]">
+              About Us
+            </p>
+            <h2
+              class="text-3xl font-bold leading-tight"
+              style="color: var(--color-midnight)"
+            >
+              A studio that cares about the way you live, work, and gather.
+            </h2>
+            <p class="text-base leading-8 text-[#362822]/90">
+              Our team combines interior design expertise with a calm,
+              client-first approach. We translate your daily routines into
+              beautiful layouts, refined palettes, and layouts that flow
+              naturally from room to room.
+            </p>
+            <p class="text-base leading-8 text-[#362822]/90">
+              Whether the goal is a fresh renovation or a full home
+              transformation, we focus on spaces that feel welcoming, balanced,
+              and distinctly yours.
+            </p>
+          </div>
+          <div>
+            <img
+              class="rounded-lg shadow-xl"
+              src="https://i.pinimg.com/736x/d1/61/21/d16121510a3d9ca5648d3ba0f9543393.jpg"
+              alt="aboutImage"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects section -->
+    <section id="projects" class="bg-[#F8F3EE] py-16 sm:py-20 lg:py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <header class="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
+          <p
+            class="text-xs font-bold uppercase tracking-[0.3em] text-[#710912] sm:text-sm"
+          >
+            Featured Work
+          </p>
+          <h2
+            class="mt-4 text-3xl font-bold leading-tight text-[#0D0D0D] sm:text-4xl lg:text-5xl"
+          >
+            Transforming spaces with elegance, precision, and purpose.
+          </h2>
+          <p
+            class="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#362822]/80 sm:text-base sm:leading-8"
+          >
+            Every space tells a story of craftsmanship and refined taste.
+            Explore our curated portfolio of residential and commercial
+            interiors, where functionality meets timeless luxury.
+          </p>
+        </header>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {% for project in latest_projects %}
+          <article
+            class="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-[#362822]/10 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+          >
+            <a
+              href="{% url 'portfolio:page' slug=project.slug %}"
+              class="block overflow-hidden"
+              aria-label="View {{ project.title }}"
+            >
+              <img
+                src="{{ project.main_image.url }}"
+                alt="{{ project.title }}"
+                class="h-60 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-64"
+              />
+            </a>
+
+            <div class="flex flex-1 flex-col p-5 sm:p-6">
+              <div
+                class="flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-wide text-[#710912]"
+              >
+                <span class="inline-flex items-center gap-1.5">
+                  <i
+                    data-lucide="layers-3"
+                    class="h-4 w-4 shrink-0 text-[#710912]"
+                  ></i>
+                  {{ project.category }}
+                </span>
+                <span class="inline-flex items-center gap-1.5">
+                  <i
+                    data-lucide="map-pin"
+                    class="h-4 w-4 shrink-0 text-[#710912]"
+                  ></i>
+                  {{ project.location }}
+                </span>
+              </div>
+
+              <h3
+                class="mt-4 text-xl font-bold leading-snug text-[#0D0D0D] sm:text-2xl"
+              >
+                {{ project.title }}
+              </h3>
+
+              <p class="mt-3 text-sm leading-7 text-[#362822]/80">
+                {{ project.description|truncatewords:22 }}
+              </p>
+
+              <a
+                href="{% url 'portfolio:page' slug=project.slug %}"
+                class="mt-5 inline-flex text-sm font-semibold text-[#710912] hover:text-[#51030a]"
+              >
+                View project →
+              </a>
+            </div>
+          </article>
+
+          {% empty %}
+          <p
+            class="col-span-full rounded-xl border border-dashed border-[#C28D39]/50 bg-white p-8 text-center text-[#362822]/70"
+          >
+            No projects have been added yet.
+          </p>
+          {% endfor %}
+        </div>
+
+        <div
+          class="mt-10 flex flex-col items-center justify-between gap-6 rounded-2xl bg-[#710912] px-6 py-8 text-center shadow-lg sm:mt-14 sm:px-8 md:flex-row md:text-left"
+        >
+          <div class="max-w-2xl">
+            <p
+              class="text-xs font-bold uppercase tracking-[0.25em] text-[#C28D39]"
+            >
+              Your space, elevated
+            </p>
+            <h3 class="mt-2 text-2xl font-bold text-[#EFE5D2] sm:text-3xl">
+              Ready to elevate your living or working environment?
+            </h3>
+          </div>
+          <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <a
+              href="{% url 'portfolio:portfolio' %}"
+              class="inline-flex items-center justify-center rounded-full bg-[#C28D39] px-6 py-3 text-sm font-bold text-[#0D0D0D] transition hover:bg-[#EFE5D2]"
+              >Explore All Projects</a
+            >
+            <a
+              href="{% url 'appointment' %}"
+              class="inline-flex items-center justify-center rounded-full border border-[#EFE5D2]/60 px-6 py-3 text-sm font-bold text-[#EFE5D2] transition hover:border-[#C28D39] hover:bg-[#C28D39] hover:text-[#0D0D0D]"
+              >Book an appointment</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonial section  -->
+    <section class="py-16 px-12 max-w-7xl mx-auto md:py-12 md:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Left Content Column -->
+        <div class="space-y-6 text-left">
+          <h2
+            class="text-4xl md:text-5xl font-extrabold text-[#710912] tracking-tight leading-tight"
+          >
+            What Our <br class="hidden sm:inline" />Clients Say
+          </h2>
+          <p
+            class="text-champagne/70 text-base md:text-lg leading-relaxed max-w-lg"
+          >
+            Discover how Nyumbani Interiors transforms living spaces into
+            tailored, elegant sanctuaries. Read real reviews from clients who
+            trusted us with their interior design projects.
+          </p>
+          <div class="pt-2">
+            <a
+              href="{% url 'about' %}"
+              class="inline-block w-[62%] text-center px-8 py-3 rounded-md bg-[#C28D39] text-[#1e1d1d] font-semibold shadow-lg hover:opacity-90 transition-all duration-300"
+            >
+              View More
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Staggered Testimonials Column -->
+        <div class="flex flex-col gap-6 relative">
+          <!-- Testimonial 1 (Top Offset) -->
+          <div
+            class="lg:ml-12 relative bg-espresso border border-[#710912] p-6 rounded-xl shadow-xl transition-transform hover:-translate-y-1"
+          >
+            <div class="flex items-start gap-4">
+              <img
+                src="https://i.pinimg.com/736x/b4/7e/b4/b47eb458d0dcdc81ad68dba0da5b8512.jpg"
+                alt="Sarah Akeno"
+                class="w-14 h-14 rounded-full object-cover border-2 border-gold/40 shrink-0"
+              />
+              <div class="flex-1 pr-6">
+                <h3 class="text-lg font-bold text-champagne">Sarah Akeno</h3>
+                <p class="text-xs text-gold/80 mb-2">Residential Client</p>
+                <p class="text-sm text-champagne/70 italic">
+                  "Nyumbani Interiors completely elevated our living room
+                  layout. Their eye for detail and custom furniture finishes
+                  exceeded all expectations."
+                </p>
+              </div>
+              <!-- Quote Icon -->
+              <span
+                class="text-3xl text-gold/30 font-serif absolute top-4 right-5"
+                >“</span
+              >
+            </div>
+          </div>
+
+          <!-- Testimonial 2 (Middle Active/Highlighted Card) -->
+          <div
+            class="lg:-ml-6 relative bg-espresso border-l-4 border-l-[#710912] border-t border-r border-b border-[#710912] p-6 rounded-r-xl shadow-2xl transition-transform hover:-translate-y-1 z-10"
+          >
+            <div class="flex items-start gap-4">
+              <img
+                src="https://i.pinimg.com/1200x/0b/87/f4/0b87f46b825e308cb903fbad42cd9618.jpg"
+                alt="David Ochieng"
+                class="w-14 h-14 rounded-full object-cover border-2 border-gold shrink-0"
+              />
+              <div class="flex-1 pr-6">
+                <h3 class="text-lg font-bold text-champagne">
+                  Cleophas Musyoka
+                </h3>
+                <p class="text-xs text-gold mb-2">Apartment Renovation</p>
+                <p class="text-sm text-champagne/90 italic">
+                  "Professional from consultation to final execution. The blend
+                  of rich tones and ambient lighting made our home feel like a
+                  luxury resort."
+                </p>
+              </div>
+              <!-- Active Quote Icon -->
+              <span class="text-3xl text-gold font-serif absolute top-4 right-5"
+                >“</span
+              >
+            </div>
+          </div>
+
+          <!-- Testimonial 3 (Bottom Offset) -->
+          <div
+            class="lg:ml-12 relative bg-espresso border border-[#710912] p-6 rounded-xl shadow-xl transition-transform hover:-translate-y-1"
+          >
+            <div class="flex items-start gap-4">
+              <img
+                src="https://i.pinimg.com/736x/57/79/b2/5779b26270106fd7a9b200c3b97aa7a3.jpg"
+                alt="Amina Patel"
+                class="w-14 h-14 rounded-full object-cover border-2 border-gold/40 shrink-0"
+              />
+              <div class="flex-1 pr-6">
+                <h3 class="text-lg font-bold text-champagne">
+                  Mellisah Kwamboka
+                </h3>
+                <p class="text-xs text-gold/80 mb-2">Office & Consultation</p>
+                <p class="text-sm text-champagne/70 italic">
+                  "Seamless experience! Their virtual consultation saved us
+                  time, and the spatial planning gave us maximum space
+                  utilization."
+                </p>
+              </div>
+              <!-- Quote Icon -->
+              <span
+                class="text-3xl text-gold/30 font-serif absolute top-4 right-5"
+                >“</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="footer" class="bg-[#0D0D0D] text-[#EFE5D2]">
+      <div class="mx-auto max-w-7xl px-6 py-16">
+        <div class="grid gap-10 lg:grid-cols-3 lg:items-start">
+          <div>
+            <p class="font-semibold text-xl text-[#EFE5D2]">
+              Nyumbani Interiors
+            </p>
+            <p class="mt-4 max-w-md leading-7 text-[#EFE5D2]/90">
+              Crafting thoughtful interiors with a luxurious balance of texture,
+              tone, and function. Every space should feel beautifully curated
+              and comfortable.
+            </p>
+          </div>
+          <div>
+            <p class="font-semibold text-lg mb-4 text-[#EFE5D2]">Quick Links</p>
+            <ul class="space-y-3 text-sm">
+              <li>
+                <a href="{% url 'home' %}" class="hover:text-[#C28D39]">Home</a>
+              </li>
+              <li>
+                <a href="{% url 'about' %}" class="hover:text-[#C28D39]"
+                  >Our Story</a
+                >
+              </li>
+              <li>
+                <a
+                  href="{% url 'portfolio:portfolio' %}"
+                  class="hover:text-[#C28D39]"
+                  >Portfolio</a
+                >
+              </li>
+              <li>
+                <a href="{% url 'contacts' %}" class="hover:text-[#C28D39]"
+                  >Contacts</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-semibold text-lg mb-4 text-[#EFE5D2]">Contact</p>
+            <p class="text-sm leading-7 text-[#EFE5D2]/90">
+              Ready to create a space you love? Reach out for a consultation and
+              let us design an interior that feels truly yours.
+            </p>
+            <p class="mt-5 text-sm font-semibold">
+              Email: hello@nyumbaniinteriors.com
+            </p>
+            <p class="text-sm font-semibold">Phone: +254 766 2334 2334</p>
+          </div>
+        </div>
+        <div
+          class="mt-10 border-t border-[#362822]/20 pt-6 text-sm text-[#EFE5D2]/80"
+        >
+          © 2026 Nyumbani Interiors. Designed for modern living.
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+          lucide.createIcons({ attrs: { width: 16, height: 16 } });
+        } else {
+          console.warn("Lucide failed to load");
+        }
+      });
+    </script>
+    <script src="{% static 'scripts/script.js' %}"></script>
+  </body>
+</html>

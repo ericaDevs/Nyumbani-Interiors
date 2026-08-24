@@ -1,0 +1,151 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<!-- Success / Alert Messages Block (centered overlay) -->
+{% if messages %}
+<div class="fixed font-mont top-5 right-5 z-199 flex flex-col gap-3 max-w-md w-full px-4 pointer-events-none">
+    {% for message in messages %}
+    <div class="pointer-events-auto relative bg-[#C28D39] text-black border-l-4 border-l-[#422900] border-t border-r border-b border-gold/20 p-4 rounded-r-md shadow-2xl flex items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3">
+            <div class="shrink-0 text-gold">
+                {% if message.tags == 'success' %}
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold"></i>
+                {% else %}
+                    <i data-lucide="alert-triangle" class="w-5 h-5 text-gold"></i>
+                {% endif %}
+            </div>
+            <p class="text-sm font-semibold">{{ message }}</p>
+        </div>
+
+        <button type="button" onclick="this.closest('.relative').remove()" aria-label="Close" class="text-champagne/80 hover:text-gold text-sm font-bold p-1 transition-colors">✕</button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+
+<main class="font-mont bg-midnight text-champagne selection:bg-gold selection:text-midnight">
+
+    <!-- Hero Header -->
+    <section class="relative bg-[#710912] py-20 px-6 md:px-12 overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10 text-center">
+            <span class="text-xs font-bold text-white tracking-widest uppercase">DIRECT CALENDAR BOOKING</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mt-3 leading-tight">
+                Schedule an <span class="text-[#C28D39]">Appointment</span>
+            </h1>
+            <p class="text-white text-base m-auto mt-4 leading-relaxed sm:w-[80%] md:w-[40%]">
+                Select your service, choose an available time slot, and lock in your meeting with our team.
+            </p>
+        </div>
+    </section>
+
+    <!-- Appointment Scheduling Section -->
+    <section class="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+        <form action="{% url 'appointment' %}" method="POST" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {% csrf_token %}
+
+            <!-- Left: Service Selector & Details -->
+            <div class="lg:col-span-5 space-y-6">
+                <h2 class="text-2xl font-bold text-champagne">Choose Appointment Type</h2>
+                
+                <div class="space-y-4">
+                    <!-- Option 1 -->
+                    <label for="type-onsite" class="block p-5 bg-espresso border border-gold/20 rounded-lg hover:border-gold transition-all cursor-pointer">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-3">
+                                <input id="type-onsite" type="radio" name="type" value="On-Site Measurement & Assessment" checked required class="accent-gold">
+                                <div>
+                                    <h4 class="text-sm font-bold text-champagne">On-Site Measurement & Assessment</h4>
+                                    <p class="text-xs text-champagne/60 mt-1">60 Mins • In-Person Site Visit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Option 2 -->
+                    <label for="type-showroom" class="block p-5 bg-espresso border border-gold/20 rounded-lg hover:border-gold transition-all cursor-pointer">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-3">
+                                <input id="type-showroom" type="radio" name="type" value="Showroom & Materials Walkthrough" class="accent-gold">
+                                <div>
+                                    <h4 class="text-sm font-bold text-champagne">Showroom & Materials Walkthrough</h4>
+                                    <p class="text-xs text-champagne/60 mt-1">45 Mins • Nairobi Studio</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Option 3 -->
+                    <label for="type-3d" class="block p-5 bg-espresso border border-gold/20 rounded-lg hover:border-gold transition-all cursor-pointer">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-3">
+                                <input id="type-3d" type="radio" name="type" value="3D Layout Review Meeting" class="accent-gold">
+                                <div>
+                                    <h4 class="text-sm font-bold text-champagne">3D Layout Review Meeting</h4>
+                                    <p class="text-xs text-champagne/60 mt-1">30 Mins • Online / Zoom</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Showcase Image -->
+                <div class="rounded-lg overflow-hidden border border-gold/10 bg-espresso">
+                    <img src="https://i.pinimg.com/1200x/78/3e/44/783e44e55adba2397973a24d716403c2.jpg" alt="Nyumbani Interior Showroom" class="w-full h-48 object-cover">
+                </div>
+            </div>
+
+            <!-- Right: Date/Time Picker Form -->
+            <div class="lg:col-span-7 bg-[#EFE5D2] p-8 md:p-10 rounded-lg border border-gold/10 shadow-2xl space-y-6">
+                <h3 class="text-xl font-bold text-champagne">Select Date & Time Slot</h3>
+
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Preferred Date</label>
+                            <input name="date" type="date" required class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Available Time Slots</label>
+                            <select name="time" required class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none">
+                                <option value="" disabled selected>Select a time</option>
+                                <option value="09:00">09:00 AM - 10:00 AM</option>
+                                <option value="11:00">11:00 AM - 12:00 PM</option>
+                                <option value="14:00">02:00 PM - 03:00 PM</option>
+                                <option value="16:00">04:00 PM - 05:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gold/10 pt-6 space-y-4">
+                        <h4 class="text-sm font-bold text-gold uppercase tracking-wider">Your Information</h4>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <input name="name" type="text" placeholder="Your Name" required class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none">
+                            <input name="phone_number" type="tel" placeholder="Phone Number" required class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none">
+                        </div>
+
+                        <input name="email" type="email" placeholder="Email Address" required class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none">
+                        
+                        <textarea name="message" rows="3" placeholder="Additional Notes or Property Address for Site Visits..." class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#710912] hover:bg-[#710912]/80 cursor-pointer text-white font-bold text-xs py-4 rounded-lg uppercase tracking-wider transition-all">
+                        Confirm Appointment Booking
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

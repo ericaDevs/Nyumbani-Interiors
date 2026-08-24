@@ -1,0 +1,190 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<!-- Success / Alert Messages Block (centered overlay) -->
+{% if messages %}
+<div class="fixed font-mont top-5 right-5 z-199 flex flex-col gap-3 max-w-md w-full px-4 pointer-events-none">
+    {% for message in messages %}
+    <div class="pointer-events-auto relative bg-[#C28D39] text-black border-l-4 border-l-[#422900] border-t border-r border-b border-gold/20 p-4 rounded-r-md shadow-2xl flex items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3">
+            <div class="shrink-0 text-gold">
+                {% if message.tags == 'success' %}
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold"></i>
+                {% else %}
+                    <i data-lucide="alert-triangle" class="w-5 h-5 text-gold"></i>
+                {% endif %}
+            </div>
+            <p class="text-sm font-semibold">{{ message }}</p>
+        </div>
+
+        <button type="button" onclick="this.closest('.relative').remove()" aria-label="Close" class="text-champagne/80 hover:text-gold text-sm font-bold p-1 transition-colors">✕</button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+
+<main class="font-mont bg-midnight text-champagne selection:bg-gold selection:text-midnight">
+
+    <!-- Hero Header -->
+    <section class="relative bg-[#710912] py-20 px-6 md:px-12 overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10 text-center w-full">
+            <span class="text-xs font-bold text-white tracking-widest uppercase">STRATEGIC DISCOVERY</span>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mt-3 leading-tight">
+                Book a Design <span class="text-[#C28D39]">Consultation</span>
+            </h1>
+            <p class="text-white text-base text-center m-auto mt-4 leading-relaxed sm:w-[80%] md:w-[45%]">
+                Sit down with our lead spatial designers to discuss your lifestyle, vision, and project feasibility. Let’s explore how to transform your environment.
+            </p>
+        </div>
+    </section>
+
+    <!-- Consultation Process & Intake Section -->
+    <section class="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <!-- Left: Consultation Overview & Expectations -->
+            <div class="lg:col-span-5 space-y-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-champagne">What to Expect</h2>
+                    <p class="text-champagne/70 text-xs mt-2 leading-relaxed">
+                        Our consultation is an in-depth creative session. We review floor plans, evaluate design aesthetics, and outline budget parameters.
+                    </p>
+                </div>
+
+                <!-- Step-by-Step Breakdown -->
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded bg-burgundy/30 border border-gold/30 text-gold flex items-center justify-center font-bold text-xs shrink-0">1</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-champagne uppercase tracking-wider">Lifestyle Analysis</h4>
+                            <p class="text-xs text-champagne/60 mt-1">We evaluate how you interact with your spatial layout daily.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded bg-burgundy/30 border border-gold/30 text-gold flex items-center justify-center font-bold text-xs shrink-0">2</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-champagne uppercase tracking-wider">Moodboard Direction</h4>
+                            <p class="text-xs text-champagne/60 mt-1">Review material swatches, lighting concepts, and spatial palettes.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded bg-burgundy/30 border border-gold/30 text-gold flex items-center justify-center font-bold text-xs shrink-0">3</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-champagne uppercase tracking-wider">Project Roadmap</h4>
+                            <p class="text-xs text-champagne/60 mt-1">Receive initial timeline estimates and conceptual direction options.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Designer Image Card -->
+                <div class="p-4 bg-espresso border border-gold/10 rounded-lg flex items-center gap-4 shadow-xl">
+                    <img src="https://i.pinimg.com/236x/87/20/a6/8720a6fed5f10ece3607d2ecc62f04be.jpg" alt="Lead Interior Consultant" class="w-16 h-16 rounded-full object-cover border border-gold/30">
+                    <div>
+                        <h4 class="text-sm font-bold text-champagne">Creative Consultation Session</h4>
+                        <p class="text-[11px] text-gold">1-on-1 Studio or Online Session</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Detailed Intake Form -->
+            <div class="lg:col-span-7 bg-[#EFE5D2] p-8 md:p-10 rounded-lg border border-gold/10 shadow-2xl">
+                <form class="space-y-6" action="{% url 'consultation' %}" method="POST">
+                    {% csrf_token %}
+                    <!-- Contact Information -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.name.id_for_label }}" class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Name</label>
+                            {% render_field form.name id="{{ form.name.id_for_label }}" class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none" placeholder="e.g. Erika Lorot" %}
+                            {% if form.name.error %}
+                                <p class="text-red-500 text-xs mt-1">{{ form.name.error.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.email.id_for_label }}" class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Email</label>
+                            {% render_field form.email id="{{ form.email.id_for_label }}" class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none" placeholder="erika@example.com" %}
+                            {% if form.email.error %}
+                                <p class="text-red-500 text-xs mt-1">{{ form.email.error.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Project Scope & Type -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                           <label for="{{ form.property_type.id_for_label }}" class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Property Type</label>
+                            <select id="{{ form.property_type.id_for_label }}" name="{{ form.property_type.name }}" class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none">
+                                <option value="" disabled {% if not form.property_type.value %}selected{% endif %}>Select property type</option>
+                                {% for val, label in form.property_type.field.choices %}
+                                    <option value="{{ val }}" {% if form.property_type.value == val %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.property_type.error %}
+                                <p class="text-red-500 text-xs mt-1">{{ form.property_type.error.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label for="{{ form.budget.id_for_label }}" class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Target Budget Range</label>
+                            <select id="{{ form.budget.id_for_label }}" name="{{ form.budget.name }}" class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none">
+                                <option value="" disabled {% if not form.budget.value %}selected{% endif %}>Select budget range</option>
+                                {% for val, label in form.budget.field.choices %}
+                                    <option value="{{ val }}" {% if form.budget.value == val %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.budget.error %}
+                                <p class="text-red-500 text-xs mt-1">{{ form.budget.error.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Consultation Format -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Consultation Preference</label>
+                        <div class="flex items-center gap-4">
+                            {% for val, label in form.preference.field.choices %}
+                                {% if val %}    
+                                    <label for="{{ form.preference.id_for_label }}_{{ forloop.counter }}" class="flex items-center gap-3 p-3 bg-midnight border border-gold/20 rounded cursor-pointer text-xs">
+                                    <input type="radio" id="{{ form.preference.id_for_label }}_{{ forloop.counter }}" name="{{ form.preference.name }}" value="{{ val }}" class="accent-gold" {% if form.preference.value == val %}checked{% endif %} required>
+                                    <span>{{ label }}</span>
+                                    </label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if form.preference.error %}
+                            <p class="text-red-500 text-xs mt-1">{{ form.preference.error.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Project Goals Description -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-champagne/80 uppercase tracking-wider mb-2">Tell Us About Your Vision</label>
+                        {% render_field form.message placeholder="Describe the rooms, preferred styles, functional needs, or specific challenges..." class="w-full bg-midnight text-champagne border border-gold/20 p-3.5 rounded text-xs focus:border-gold outline-none" %}
+                        {% if form.message.error %}
+                            <p class="text-red-500 text-xs mt-1">{{ form.message.error.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#710912] hover:bg-[#710912]/80 cursor-pointer text-white font-bold text-xs py-4 rounded-lg uppercase tracking-wider border border-gold/20 transition-all">
+                        Request Consultation Session
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

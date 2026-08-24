@@ -1,0 +1,224 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<main class="font-mont bg-midnight text-champagne selection:bg-gold selection:text-midnight">
+
+    <!-- 1. Hero Section -->
+    <section class="relative overflow-hidden bg-cover bg-center h-120" style="background-image: linear-gradient(rgba(13,13,13,0.55), rgba(13,13,13,0.75)), url(https://i.pinimg.com/1200x/8c/25/25/8c25256a69be09fb1fea374e655e372f.jpg);">
+        <div class="absolute inset-0 bg-black/15"></div>
+        <div class="flex flex-col items-center justify-center md:relative z-10 max-w-4xl m-auto text-center space-y-6 mt-5 pt-4">
+            <div class="flex items-center justify-center gap-3">
+                <span class="w-8 h-px bg-gold"></span>
+                <span class="text-xs font-bold text-white tracking-widest uppercase">A TRENDY LUXURY</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight tracking-tight">
+                Innovate You,<br>
+                Innovate Your <span class="text-[#C28D39]">Home</span>
+            </h1>
+            <p class="mx-auto max-w-2xl text-white text-sm md:text-base leading-relaxed">
+                Nyumbani interior design consultancy firm brings sensitivity to the design of top restaurants, hotels, offices, and homes around the world.
+            </p>
+            <div class="w-full z-100 gap-4 flex flex-col items-center justify-center md:flex-row md:gap-6">
+                <a href="{% url 'contacts' %}" class="inline-block items-center justify-center rounded-full bg-[#710912] px-16 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20">Contacts Us Today</a>
+                <a href="{% url 'consultation' %}" class="inline-block rounded-full bg-[#C28D39] px-16 py-3 text-sm font-semibold text-[#362822]">Book a Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. About / Tabbed Feature Section -->
+    <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Large Showcase Image -->
+            <div class="lg:col-span-6">
+                <div class="rounded-lg shadow-2xl">
+                    <img src="https://i.pinimg.com/1200x/c8/03/7c/c8037c5a566a26f4ce28e525a6a7487c.jpg" alt="Stylish Living Room Setup" class="w-full object-cover rounded-lg">
+                </div>
+            </div>
+
+            <!-- Right Text and Interactive Tabs -->
+            <div class="lg:col-span-6 space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-bold text-gold tracking-widest uppercase">ABOUT NYUMBANI</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#710912] leading-tight">
+                    We Create The Art Of Stylish<br>Living Stylishly
+                </h2>
+                <p class="text-champagne/70 text-sm leading-relaxed">
+                    Nyumbani interior design consultancy firm that brings sensitivity to the design top restaurants, hotels, offices & homes around the world. We stand for quality, safety and credibility, so you could be sure about our work. Initially we started as a company specializing
+                </p>
+
+                <!-- Navigation Tabs -->
+                <div class="border-b border-gold/10 flex gap-8 text-xs font-bold tracking-wider pt-2">
+                    <button class="pb-3 text-gold border-b-2 border-gold uppercase">Designing</button>
+                    <button class="pb-3 text-champagne/60 hover:text-gold uppercase transition-colors">Approved</button>
+                    <button class="pb-3 text-champagne/60 hover:text-gold uppercase transition-colors">Guaranteed</button>
+                </div>
+
+                <!-- Tab Content Preview -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center pt-2">
+                    <div class="sm:col-span-4">
+                        <img src="https://i.pinimg.com/736x/2a/50/5e/2a505eefffebed7f27dfd1ef227ba2da.jpg" alt="Design Detail" class="w-full h-32 object-cover rounded border border-gold/10">
+                    </div>
+                    <div class="sm:col-span-8 space-y-2">
+                        <p class="text-champagne/70 text-xs leading-relaxed">
+                            We are committed to the impeccable craftsmanship and luxury is reflected in all we do. We offer span furniture and many accessories.
+                        </p>
+                        <ul class="space-y-1.5 text-xs text-champagne/90 font-medium pt-1">
+                            <li class="flex items-center gap-2"><span class="text-gold">✓</span> Quality and designs checks deeply</li>
+                            <li class="flex items-center gap-2"><span class="text-gold">✓</span> Periodic site review and timelines</li>
+                            <li class="flex items-center gap-2"><span class="text-gold">✓</span> Design development and strategy</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3. Services We Do (Split-Background Overlay Layout) -->
+    <section class="relative bg-[#EFE5D2] py-24">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <!-- Section Header -->
+            <div class="space-y-3 mb-14">
+                <div class="flex items-center gap-3">
+                    <span class="w-8 h-px bg-[#710912]"></span>
+                    <span class="text-xs font-bold text-gold tracking-widest uppercase">SERVICES WE DO</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-champagne">
+                    Our Featured Services<br>
+                    <span class="text-gold">Interior Design Transformations</span>
+                </h2>
+            </div>
+
+            <!-- Service Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+                
+                <!-- Service 1 -->
+                <div class="bg-midnight p-8 rounded-lg border border-gold/10 hover:border-gold/30 transition-all duration-300 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 text-gold flex items-center justify-center text-3xl"><img src="{% static 'images/blueprint.png' %}" alt=""></div>
+                        <h3 class="text-lg font-bold text-champagne">Architecture</h3>
+                        <p class="text-champagne/60 text-xs leading-relaxed">
+                            We develop the full cycle of project documentation & full details. Our clients satisfaction i...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-midnight p-8 rounded-lg border border-gold/10 hover:border-gold/30 transition-all duration-300 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 text-gold flex items-center justify-center text-3xl"><img src="{% static 'images/livingroom.png' %}" alt="livingroom"></div>
+                        <h3 class="text-lg font-bold text-champagne">Interior Work</h3>
+                        <p class="text-champagne/60 text-xs leading-relaxed">
+                            We will take care of the interior designs, build & management of all kind of living projects
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-midnight p-8 rounded-lg border border-gold/10 hover:border-gold/30 transition-all duration-300 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 text-gold flex items-center justify-center text-3xl"><img src="{% static 'images/boutique.png' %}" alt="boutique"></div>
+                        <h3 class="text-lg font-bold text-champagne">Retail Designs</h3>
+                        <p class="text-champagne/60 text-xs leading-relaxed">
+                            We can help you with the retail interior design and third party management to create best
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="bg-midnight p-8 rounded-lg border border-gold/10 hover:border-gold/30 transition-all duration-300 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 text-gold flex items-center justify-center text-3xl"><img src="{% static 'images/house.png' %}" alt="2D/3D Layouts"></div>
+                        <h3 class="text-lg font-bold text-champagne">2D/3D Layouts</h3>
+                        <p class="text-champagne/60 text-xs leading-relaxed">
+                            We offer professional online 2D and 3D interior designing which will help you visualize
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="bg-midnight p-8 rounded-lg border border-gold/10 hover:border-gold/30 transition-all duration-300 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 text-gold flex items-center justify-center text-3xl"><img src="{% static 'images/interior.png' %}" alt="Furniture Styling"></div>
+                        <h3 class="text-lg font-bold text-champagne">Furniture Styling</h3>
+                        <p class="text-champagne/60 text-xs leading-relaxed">
+                            We curate the right furniture, lighting, and accessories to create cohesive and elevated spaces.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="bg-midnight p-8 rounded-lg border border-gold/10 hover:border-gold/30 transition-all duration-300 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 text-gold flex items-center justify-center text-3xl"><img src="{% static 'images/project.png' %}" alt="Project Management"></div>
+                        <h3 class="text-lg font-bold text-champagne">Project Management</h3>
+                        <p class="text-champagne/60 text-xs leading-relaxed">
+                            We coordinate planning, procurement, and installation so every project runs smoothly from start to finish.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+<section class="font-mont bg-midnight py-20 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    
+    <!-- Left Column: Main Image with Overlapping Stat Box -->
+    <div class="lg:col-span-5 relative">
+      <div class="rounded-lg overflow-hidden shadow-xl">
+        <img src="https://i.pinimg.com/1200x/49/5c/f2/495cf2e4ea1207b67ca50c4d85a81924.jpg" alt="Modern Dining Space" class="w-full h-95 object-cover">
+      </div>
+      
+      <!-- Overlapping Stats Card -->
+      <div class="absolute bottom-4 right-0 transform translate-x-4 lg:translate-x-8 bg-[#710912] p-6 text-white rounded-lg shadow-2xl space-y-6 max-w-50">
+        <div>
+          <h3 class="font-mont font-bold text-3xl md:text-4xl text-gold">120+</h3>
+          <p class="text-xs text-champagne/70 mt-1 uppercase tracking-wider">Projects Completed</p>
+        </div>
+        <div class="border-t border-gold/10 pt-4">
+          <h3 class="font-mont font-bold text-3xl md:text-4xl text-gold">98%</h3>
+          <p class="text-xs text-champagne/70 mt-1 uppercase tracking-wider">Client Satisfaction</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Column: Contact Text Content -->
+    <div class="lg:col-span-4 space-y-6 pl-0 lg:pl-6">
+      <span class="text-xs font-bold text-gold tracking-widest uppercase">CONTACT US</span>
+      
+      <h2 class="font-mont font-bold text-3xl md:text-4xl text-champagne leading-tight">
+        Ready To Transform Your Space?
+      </h2>
+      
+      <p class="text-champagne/70 text-sm leading-relaxed">
+        Let’s bring your ideas to life with tailored interior solutions, thoughtful planning, and exceptional attention to detail.
+      </p>
+      
+      <div class="pt-2">
+        <a href="{% url 'contacts' %}" class="inline-flex items-center gap-3 bg-[#C28D39] hover:bg-[#C28D39]/80 text-black text-xs font-bold py-3.5 px-6 rounded uppercase tracking-wider transition-all duration-300 group">
+          <span>CONTACT US NOW</span>
+          <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: Secondary Portrait Showcase Image -->
+    <div class="hidden md:block col-span-3">
+      <div class="rounded-lg overflow-hidden shadow-xl">
+        <img src="https://i.pinimg.com/736x/f4/bf/74/f4bf74eb038fd1931c94143af4ad8d5b.jpg" alt="Illuminated Shelf Decor" class="w-full h-95 object-cover">
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+{% endblock content %}

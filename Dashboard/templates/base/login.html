@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Portal Login | Nyumbani Interiors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    
+    <style>
+        :root {
+            --brand-gold: #C28D39;
+            --brand-burgundy: #710912;
+            --brand-burgundy-hover: #59060e;
+            --brand-champagne: #FAF7F2;
+            --brand-espresso: #2B1810;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Ambient Glass Card Effect */
+        .glass-login-card {
+            background: rgba(254, 252, 248, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(194, 141, 57, 0.28);
+            box-shadow: 
+                0 25px 60px -15px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+                0 10px 30px -10px rgba(113, 9, 18, 0.15);
+        }
+
+        /* Subtle Ambient Glow Behind Card */
+        .ambient-glow {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(194, 141, 57, 0.22) 0%, rgba(113, 9, 18, 0.1) 50%, transparent 70%);
+            filter: blur(45px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Input Styling */
+        .custom-input {
+            background: #FFFFFF;
+            border: 1.5px solid rgba(194, 141, 57, 0.3);
+            color: #2B1810;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: #C28D39;
+            box-shadow: 0 0 0 3.5px rgba(194, 141, 57, 0.18);
+            background: #FFFFFF;
+        }
+
+        /* Button Glow & Active state */
+        .btn-luxury {
+            background: linear-gradient(135deg, #710912 0%, #8c0c17 50%, #61070e 100%);
+            box-shadow: 0 8px 20px -4px rgba(113, 9, 18, 0.45);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-luxury:hover {
+            background: linear-gradient(135deg, #820b15 0%, #9e0e1a 50%, #710912 100%);
+            box-shadow: 0 12px 26px -4px rgba(113, 9, 18, 0.6);
+            transform: translateY(-1.5px);
+        }
+
+        .btn-luxury:active {
+            transform: translateY(0.5px) scale(0.99);
+            box-shadow: 0 4px 12px -2px rgba(113, 9, 18, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen h-full w-full relative flex flex-col justify-between overflow-x-hidden antialiased bg-[#140e0b]">
+
+    <!-- Background Interior Design Image with Cinematic Multi-Layer Overlay -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <!-- Interior Background Image -->
+        <img 
+            src="{% static 'images/login_bg.jpg' %}" 
+            alt="Interior Design Backdrop" 
+            class="w-full h-full object-cover object-center scale-105 transform duration-1000 ease-out"
+        />
+        
+        <!-- Clean Backdrop Gradient Overlay -->
+        <div class="absolute inset-0 bg-linear-to-b from-[#140E0B]/85 via-[#1E1410]/75 to-[#0D0806]/90 backdrop-blur-[3px] sm:backdrop-blur-[5px]"></div>
+        
+        <!-- Subtle Gold Vignette Accent -->
+        <div class="absolute inset-0 bg-radial-vignette opacity-60"></div>
+    </div>
+
+    <!-- Top Navigation Bar / Brand Indicator -->
+    <header class="relative z-20 w-full px-4 sm:px-8 py-4 sm:py-6 flex items-center justify-between">
+        <a href="/" class="inline-flex items-center gap-2 text-white/80 hover:text-white group text-xs sm:text-sm font-medium tracking-wide transition-colors duration-200 bg-black/30 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 hover:border-gold/40">
+            <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#C28D39]"></i>
+            <span>Back to Website</span>
+        </a>
+        <div class="hidden sm:flex items-center gap-2 text-white/60 text-xs tracking-widest uppercase">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Secure Admin Environment</span>
+        </div>
+    </header>
+
+    <!-- Main Viewport Centering Container (Optimized for Mobile, Tablet, and Desktop) -->
+    <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-6 sm:py-10">
+        
+        <!-- Ambient Glow behind the card -->
+        <div class="ambient-glow -top-10 -right-10 hidden sm:block"></div>
+        <div class="ambient-glow -bottom-10 -left-10 hidden sm:block"></div>
+
+        <!-- Login Card Container -->
+        <div class="glass-login-card relative w-full max-w-110 rounded-2xl sm:rounded-3xl p-6 sm:p-9 mx-auto transition-all duration-300">
+            
+            <!-- Top Brand & Header Section -->
+            <div class="text-center space-y-2.5 mb-7">
+                <!-- Brand Badge / Icon -->
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-linear-to-br from-[#FAF5EC] to-[#EFE2CA] border border-[#C28D39]/40 text-[#710912] shadow-md shadow-[#C28D39]/15 mb-1 group hover:scale-105 transition-transform duration-300">
+                    <i data-lucide="shield-check" class="w-7 h-7 text-[#710912]"></i>
+                </div>
+                
+                <span class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#C28D39] block">
+                    Nyumbani Interiors
+                </span>
+                
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-[#710912] tracking-tight">
+                    Admin Portal
+                </h1>
+                
+                <p class="text-xs sm:text-[13px] text-[#362822]/80 font-medium max-w-xs mx-auto">
+                    Sign in to access your interior design management dashboard
+                </p>
+            </div>
+
+            <!-- Messages / Alerts (Django) -->
+            {% if messages %}
+                <div class="mb-5 space-y-2">
+                    {% for message in messages %}
+                        <div class="flex items-start gap-2.5 p-3 text-xs rounded-xl border {% if message.tags == 'error' %}bg-rose-50 border-rose-200 text-rose-800{% else %}bg-emerald-50 border-emerald-200 text-emerald-800{% endif %} animate-fadeIn">
+                            <i data-lucide="{% if message.tags == 'error' %}alert-circle{% else %}check-circle-2{% endif %}" class="w-4 h-4 shrink-0 mt-0.5"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Form Non-Field Errors -->
+            {% if form.non_field_errors %}
+                <div class="mb-5 p-3 text-xs rounded-xl bg-rose-50 border border-rose-200 text-rose-800 space-y-1">
+                    {% for error in form.non_field_errors %}
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                            <span>{{ error }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="POST" action="{% url 'dashboard:login' %}" class="space-y-4 sm:space-y-5">
+                {% csrf_token %}
+                <!-- Username Field -->
+                <div class="space-y-1.5 text-left">
+                    <label for="id_username" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#362822]/90">
+                        Username
+                    </label>
+                    <div class="relative flex items-center">
+                        <span class="absolute left-3.5 text-[#C28D39] pointer-events-none flex items-center">
+                            <i data-lucide="user" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </span>
+                        <input type="text" id="id_username" placeholder="Enter username" autocomplete="username" name="username" class="custom-input w-full rounded-xl pl-11 pr-4 py-3 sm:py-3.5 text-sm font-medium placeholder-[#362822]/40">
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="space-y-1.5 text-left">
+                    <div class="flex items-center justify-between">
+                        <label for="id_password" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#362822]/90">
+                            Password
+                        </label>
+                    </div>
+                    <div class="relative flex items-center">
+                        <span class="absolute left-3.5 text-[#C28D39] pointer-events-none flex items-center">
+                            <i data-lucide="lock" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </span>
+                        <input type="password" id="id_password" placeholder="••••••••••••" autocomplete="current-password" name="password" class="custom-input w-full rounded-xl pl-11 pr-11 py-3 sm:py-3.5 text-sm font-medium placeholder-[#362822]/40">
+                        
+                        <!-- Toggle Password Visibility Button -->
+                        <button type="button" id="togglePassword" aria-label="Toggle password visibility" class="absolute right-3 text-[#362822]/50 hover:text-[#710912] focus:outline-none p-1 transition-colors">
+                            <i data-lucide="eye" id="eyeIcon" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2">
+                    <button type="submit" class="btn-luxury w-full py-3.5 sm:py-4 px-6 text-white font-bold text-sm sm:text-base rounded-xl cursor-pointer tracking-wider uppercase flex items-center justify-center gap-2 group">
+                        <span>Sign In</span>
+                        <i data-lucide="log-in" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Card Footer / Security Notice -->
+            <div class="mt-7 pt-4 border-t border-[#C28D39]/20 text-center">
+                <p class="text-[11px] text-[#362822]/65 leading-relaxed flex items-center justify-center gap-1.5">
+                    <i data-lucide="lock-keyhole" class="w-3 h-3 text-[#C28D39] shrink-0"></i>
+                    <span>Authorized Nyumbani administrative personnel only</span>
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Bottom Footer Brand Copyright -->
+    <footer class="relative z-20 w-full py-4 px-4 text-center">
+        <p class="text-[11px] sm:text-xs text-white/50 tracking-wider">
+            &copy; {{ now|date:"Y"|default:"2026" }} Nyumbani Interiors Management System. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- Lucide Icons Script -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                lucide.createIcons();
+            }
+
+            // Password Visibility Toggle Logic
+            const togglePasswordBtn = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('id_password');
+            
+            if (togglePasswordBtn && passwordInput) {
+                togglePasswordBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                    
+                    // Re-render icon
+                    const eyeIcon = document.getElementById('eyeIcon');
+                    if (eyeIcon) {
+                        eyeIcon.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+                        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                            lucide.createIcons();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

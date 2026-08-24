@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}About | Interior Designs{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <style>
+        #projects article > div > a {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            width: fit-content;
+            border-bottom: 2px solid #C28D39;
+            padding-bottom: 0.25rem;
+        }
+
+        #projects article > div > a:hover {
+            border-color: #710912;
+        }
+    </style>
+</head>
+<body class="font-mont">
+    <nav class="sticky top-0 z-50 border-b-4 border-b-[#710912] bg-white/95 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+            <section class="w-full md:w-1/4">
+                <a href="/" class="w-22"><img class="h-22 pr-3 md:border-r-4 border-[#710912]" src="{% static 'images/logo.png' %}" alt="Nyumbani Interiors Logo"></a>
+            </section>
+
+            <section class="hidden w-full md:flex md:w-3/4 flex-col items-end text-sm font-medium text-[#362822]">
+                <div class="flex w-full flex-col gap-4 px-6 py-2 sm:w-auto sm:flex-row sm:items-center sm:justify-end">
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-sm text-[#362822]">
+                        <span class="flex items-center font-semibold justify-center gap-2 text-[#710912] pr-4">Contact us <span class="text-[#1e1d1d] flex items-center justify-center gap-2 decoration-none mr-3 text-sm"> <i data-lucide="phone"></i> +254 766 2334 2334 </span> | </span>
+                        <span class="font-semibold text-[#710912] ml-3">Follow us</span>
+                        <a href="#" class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition" aria-label="Instagram">
+                            <img src="{% static 'images/instagram.png' %}" alt="instagram">
+                        </a>
+
+                        <a href="#" class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition" aria-label="Pinterest">
+                            <img src="{% static 'images/pinterest.png' %}" alt="instagram">
+                        </a>
+
+                        <a href="#" class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition" aria-label="facebook">
+                            <img src="{% static 'images/facebook.png' %}" alt="instagram">
+                        </a>
+
+                        <a href="#" class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#EFE5D2] bg-white text-[#362822] transition" aria-label="tiktok">
+                            <img src="{% static 'images/tik-tok.png' %}" alt="instagram">
+                        </a>
+                    </div>
+                    {% comment %} <div class="flex flex-wrap gap-3">
+                        <a href="{% url 'dashboard:overview' %}">Admin dashboard</a>
+                    </div> {% endcomment %}
+                </div>
+
+                <span class="block h-px w-[82%] mt-3 mb-3 bg-[#710912]"></span>
+
+                <div class="mx-auto flex max-w-7xl items-center justify-between px-6 gap-5">
+                    <div class="hidden gap-8 md:flex text-sm mr-4 font-medium text-[#362822]">
+                        <a href="{% url 'home' %}" class="hover:text-[#710912]">Home</a>
+                        <a href="{% url 'services' %}" class="hover:text-[#710912]">Services</a>
+                        <a href="{% url 'portfolio:portfolio' %}" class="hover:text-[#710912]">Portfolio</a>
+                        <a href="{% url 'about' %}" class="text-[#710912]">About</a>
+                        <a href="{% url 'contacts' %}" class="hover:text-[#710912]">Contact</a>
+                    </div>
+
+                    <a href="{% url 'appointment' %}" class="rounded-full border bg-[#710912] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#570209] hover:text-white">Book an Appointment</a>
+
+                    <a href="{% url 'consultation' %}" class="rounded-full bg-[#C28D39] px-5 py-2 text-sm font-semibold text-black hover:bg-[#b97f23] hover:text-black transition">Book a Consultation</a>
+                </div>
+            </section>
+
+            <button id="siteMenuToggle" type="button" class="inline-flex items-center justify-center rounded-lg border border-[#710912] p-2 text-[#710912] md:hidden" aria-label="Open navigation menu" aria-controls="siteMobileMenu" aria-expanded="false">
+                <span class="flex flex-col gap-1" aria-hidden="true">
+                    <span class="block h-0.5 w-5 bg-current"></span>
+                    <span class="block h-0.5 w-5 bg-current"></span>
+                    <span class="block h-0.5 w-5 bg-current"></span>
+                </span>
+                <span class="sr-only">Menu</span>
+            </button>
+
+            <div id="siteMobileMenu" class="hidden absolute top-full left-0 w-full border-t border-[#EFE5D2] bg-white px-6 py-5 shadow-lg md:hidden">
+                <button id="siteMenuClose" type="button" class="absolute right-4 top-4 text-[#710912]" aria-label="Close navigation menu">&times;</button>
+                <div class="flex flex-col gap-4 text-sm font-medium text-[#362822]">
+                    <a href="{% url 'home' %}" class="hover:text-[#710912]">Home</a>
+                    <a href="{% url 'services' %}" class="hover:text-[#710912]">Services</a>
+                    <a href="{% url 'portfolio:portfolio' %}" class="hover:text-[#710912]">Portfolio</a>
+                    <a href="{% url 'about' %}" class="hover:text-[#710912]">About</a>
+                    <a href="{% url 'contacts' %}" class="hover:text-[#710912]">Contact</a>
+                    <a href="{% url 'consultation' %}" class="mt-1 rounded-full border border-[#710912] px-5 py-2 text-center font-semibold text-[#710912]">Book a Consultation</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Top Info Bar -->
+    <div class="bg-[#C28D39] text-black border-b border-gold/10 text-xs py-2.5 px-6 hidden md:px-12 md:flex flex-col md:flex-row justify-between items-center gap-2">
+        <div class="flex items-center justify-between gap-6">
+            <span class="inline-flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg> JK. Moi Avenue No.234, Kayole, Kitui</span>
+            <span class="inline-flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.466 15.466 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.35.26 2.67.76 3.88.18.44.07.95-.3 1.31l-2.34 2.34z"/></svg> +254 766 2334 2334</span>
+            <span class="inline-flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0-5a1 1 0 011 1v1a1 1 0 01-2 0V3a1 1 0 011-1zm0 18a1 1 0 011 1v1a1 1 0 01-2 0v-1a1 1 0 011-1z"/></svg> Opening : Mon-Fri 08:00 - 17:00</span>
+        </div>
+    </div>
+
+    <!-- Page Title / Hero Banner -->
+    <section class="h-[92%] relative overflow-hidden py-20 px-6 md:px-12 border-b border-gold/10" style="background-image: linear-gradient(rgba(13,13,13,0.7), rgba(13,13,13,0.45)), url('https://i.pinimg.com/1200x/15/08/26/150826aadd1fd285a6d11b13d64d6da1.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <div class="absolute inset-0 bg-black/10"></div>
+        <div class="relative max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="max-w-3xl pb-10">
+                <h1 class="text-4xl md:text-5xl font-bold text-white tracking-wide">ABOUT US</h1>
+                <p class="mt-5 max-w-2xl text-lg leading-7 text-white/80">Discover the story behind our studio, the thoughtful process that guides every room, and the bespoke interior experiences we create for modern homes.</p>
+                <a href="{% url 'services' %}" class="inline-block text-white bg-[#710912] hover:bg-[#500007] text-xs font-bold py-3.5 px-8 rounded tracking-wider uppercase transition-all mt-4 mr-4">View our Services</a>
+                <a href="{% url 'consultation' %}" class="inline-block bg-[#C28D39] text-black hover:bg-[#b27d28] text-xs font-bold py-3.5 px-8 rounded tracking-wider uppercase transition-all mt-4">Book a Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="bg-[#EFE5D2] py-20 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Left Image with Play Video Overlay -->
+            <div class="lg:col-span-6 relative">
+                <div class="rounded-lg overflow-hidden border border-gold/10 bg-espresso">
+                    <img src="https://i.pinimg.com/1200x/6e/a8/29/6ea82942273fc129db4d26984d8ed4d3.jpg" alt="Interior Hallway" class="w-full h-112.5 object-cover">
+                </div>
+            </div>
+
+            <!-- Right Content Box -->
+            <div class="lg:col-span-6 space-y-8">
+                <div class="flex flex-col items-start">
+                    <span class="text-xs font-semibold text-gold tracking-widest uppercase">WELCOME TO NYUMBANI</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-champagne mt-2 leading-tight">INNOVATIVE IDEAS<br>STYLISH DESIGNS</h2>
+                    <p class="text-champagne/70 text-sm mt-4 leading-relaxed">
+                        Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-6">
+                        <a href="{% url 'appointment' %}" class="inline-block bg-[#710912] hover:bg-[#5f020a] text-white text-xs font-bold py-3.5 px-8 rounded tracking-wider transition-all">Book an appointment</a>
+                        <a href="{% url 'portfolio:portfolio' %}" class="inline-block text-black bg-[#C28D39] hover:bg-[#c17a08] text-xs font-bold py-3.5 px-8 rounded tracking-wider transition-all">View our Projects</a>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 gap-6 pt-4">
+                    <div class="border-l-2 border-[#710912] pl-6">
+                        <span class="text-4xl font-bold text-champagne">25 +</span>
+                        <p class="text-xs text-[#710912] mt-1 uppercase tracking-wider">Years of Experience</p>
+                    </div>
+                    <div class="border-l-2 border-[#710921] pl-6">
+                        <span class="text-4xl font-bold text-champagne">1,250 +</span>
+                        <p class="text-xs text-[#710912] mt-1 uppercase tracking-wider">Projects Completed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
+        <!-- Left Column -->
+            <div class="lg:col-span-6 space-y-3">
+                <span class="text-xs font-bold uppercase tracking-widest text-gold">
+                    Our mission & vision
+                </span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#710912] tracking-tight leading-tight">
+                    Elevate Your Living Space <br class="hidden sm:inline" />With Bespoke Luxury
+                </h2>
+            </div>
+
+            <!-- Right Column -->
+            <div class="lg:col-span-6 lg:pt-8">
+                <p class="text-champagne/70 text-sm sm:text-base leading-relaxed">
+                    Transform your residence into a tailored sanctuary with timeless aesthetics and functional spatial layouts. Empower your interior choices with expert guidance, streamlining your project from concept to execution while focusing on what matters most—living comfortably in style.
+                </p>
+            </div>
+        </div>
+
+        <!-- Cards Grid Layout -->
+        <div class="flex flex-col items-center justify-center sm:gap-8 md:flex-row gap-12">
+            <div class="w-95 p-2 md:w-280 h-95 rounded-lg">
+                <!-- Background Image -->
+                <img src="https://i.pinimg.com/736x/f4/cf/45/f4cf451a383abe7da122652572e0be9d.jpg" alt="Nyumbani Interiors Story" class="w-full h-full object-cover group-hover:scale-105 transition-transform rounded-lg duration-700"/>
+            </div>
+
+            <!-- Right Stacked Cards: Our Mission & Our Vision -->
+            <div class="text-sm col-span-5 flex flex-col gap-6">
+                <div class="flex-1 bg-espresso/60 border border-[#710912] p-8 rounded-2xl shadow-lg flex flex-col justify-center space-y-2">
+                    <h3 class="text-xl sm:text-2xl font-bold text-[#710912]">Our Mission</h3>
+                    <p class="text-champagne/70 text-sm sm:text-base md:text-sm leading-relaxed">
+                    To deliver personalized, luxury interior design solutions that empower homeowners and businesses to express their unique identity.
+                    </p>
+                </div>
+
+                <div class="flex-1 bg-espresso border-l-4 border-l-[#710912] border-t border-r border-b border-gold/30 p-8 rounded-2xl shadow-xl flex flex-col justify-center space-y-2">
+                    <h3 class="text-xl sm:text-2xl font-bold text-[#710912]">Our Vision</h3>
+                    <p class="text-champagne/80 text-sm sm:text-base leading-relaxed md:text-sm">
+                    To lead in architectural interior design and shape more elegant, functional, and inspiring sanctuaries across the region.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="bg-[#EFE5D2] py-20 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Left Text -->
+            <div class="lg:col-span-4 space-y-4">
+                <h2 class="text-3xl font-extrabold text-[#710912] tracking-wide">WHY CHOOSE US</h2>
+                <p class="text-sm leading-relaxed">
+                    At Nyumbani Interiors, we transform ordinary spaces into extraordinary sanctuaries. We blend timeless luxury with modern functionality to create tailored environments that reflect your personal lifestyle and vision.
+                </p>
+            </div>
+
+            <!-- Right 2x2 Feature Cards -->
+            <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-[#fefbf5] p-6 rounded-lg border-b-4 border-b-[#710912] space-y-2">
+                    <div class="text-[#710912] text-4xl"><i data-lucide="building-2"></i></div>
+                    <h3 class="text-lg font-semibold text-champagne">Fast Building</h3>
+                    <p class="text-champagne/60 text-xs leading-relaxed">We partner with skilled artisans and source high-quality materials to deliver custom joinery, rich textures, and durable finishes built to last.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-[#fefbf5] p-6 rounded-lg border-b-4 border-b-[#710912] space-y-2">
+                    <div class="text-[#710912] text-4xl"><i data-lucide="file-cog"></i></i></div>
+                    <h3 class="text-lg font-semibold text-champagne">Smartly Execute</h3>
+                    <p class="text-champagne/60 text-xs leading-relaxed">From initial 3D design concepts to material sourcing and final installation, we manage the entire project end-to-end for a stress-free experience.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-[#fefbf5] p-6 rounded-lg border-b-4 border-b-[#710912] space-y-2">
+                    <div class="text-[#710912] text-4xl"><i data-lucide="notepad-text"></i></div>
+                    <h3 class="text-lg font-semibold text-champagne">Carefully Planned</h3>
+                    <p class="text-champagne/60 text-xs leading-relaxed">We carefully analyze every square inch of your space to ensure maximum flow, balance, and practical usability without compromising on aesthetics.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-[#fefbf5] p-6 rounded-lg border-b-4 border-b-[#710912] space-y-2">
+                    <div class="text-[#710912] text-4xl"><i data-lucide="wallpaper"></i></i></div>
+                    <h3 class="text-lg font-semibold text-champagne">Perfect Design</h3>
+                    <p class="text-champagne/60 text-xs leading-relaxed">Every detail—from ambient lighting layouts to bespoke furniture palettes—is uniquely curated to create a cohesive, high-end atmosphere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interior Design / Signature Section -->
+    <section class="py-20 px-6 md:px-12 max-w-7xl mx-auto mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Left Details -->
+            <div class="lg:col-span-6 space-y-6">
+                <span class="text-xs font-semibold text-gold tracking-widest uppercase">AWARD WINNING</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-[#710912] leading-tight">THE NYUMBANI INTERIORS</h2>
+                <p class="text-champagne/70 text-sm leading-relaxed">
+                   We craft spaces that harmonize architectural precision with timeless luxury. From concept development to the final styling touch, our award-winning design approach transforms residential and commercial properties into inspiring, functional sanctuaries tailored to your unique lifestyle.
+                </p>
+
+                <!-- Signature & CEO -->
+                <div class="pt-2">
+                    <div class="italic font-serif text-gold text-xl">ericaDevs</div>
+                    <p class="text-xs font-semibold text-champagne tracking-wider uppercase mt-1">Erika Lorot, CEO</p>
+                </div>
+            </div>
+
+            <!-- Right Image with Floating Quote -->
+            <div class="lg:col-span-6 relative">
+                <div class="rounded-lg overflow-hidden border border-gold/10 bg-espresso">
+                    <img src="https://i.pinimg.com/1200x/55/98/87/559887427eb28593de06f45b7d0841b7.jpg" alt="Poster Mockup Room" class="w-full h-100 object-cover">
+                </div>
+                <!-- Floating Quote Card -->
+                <div class="lg:absolute -bottom-8 -left-8 bg-[#710912] p-6 rounded-lg shadow-2xl max-w-xs mt-6 lg:mt-0">
+                    <p class="text-xs text-white italic leading-relaxed">
+                        "Design is more than aesthetics—it is the art of curating spaces that reflect who you are and elevate how you live every single day."
+                    </p>
+                    <span class="block text-xs font-bold text-white mt-3">Erika Lorot</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="bg-[#EFE5D2] py-16 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-champagne">Ready To Start New Project With Inner?</h2>
+                <p class="text-champagne/60 text-xs mt-2">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            </div>
+            <a href="{% url 'contacts' %}" class="bg-[#C28D39] hover:bg-[#b77d1f] text-xs font-bold py-3.5 px-8 rounded tracking-wider w-[98%] md:w-[20%] text-center transition-all whitespace-nowrap">CONTACT US</a>
+        </div>
+    </section>
+
+
+    <footer id="footer" class="bg-[#0D0D0D] text-[#EFE5D2]">
+        <div class="mx-auto max-w-7xl px-6 py-16">
+            <div class="grid gap-10 lg:grid-cols-3 lg:items-start">
+                <div>
+                    <p class="font-semibold text-xl text-[#EFE5D2]">Nyumbani Interiors</p>
+                    <p class="mt-4 max-w-md leading-7 text-[#EFE5D2]/90">Crafting thoughtful interiors with a luxurious balance of texture, tone, and function. Every space should feel beautifully curated and comfortable.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-lg mb-4 text-[#EFE5D2]">Quick Links</p>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="{% url 'home' %}" class="hover:text-[#C28D39]">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-[#C28D39]">Our Story</a></li>
+                        <li><a href="{% url 'portfolio:portfolio' %}" class="hover:text-[#C28D39]">Portfolio</a></li>
+                        <li><a href="{% url 'contacts' %}" class="hover:text-[#C28D39]">Contacts</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-semibold text-lg mb-4 text-[#EFE5D2]">Contact</p>
+                    <p class="text-sm leading-7 text-[#EFE5D2]/90">Ready to create a space you love? Reach out for a consultation and let us design an interior that feels truly yours.</p>
+                    <p class="mt-5 text-sm font-semibold">Email: hello@nyumbaniinteriors.com</p>
+                    <p class="text-sm font-semibold">Phone: +254 766 2334 2334</p>
+                </div>
+            </div>
+            <div class="mt-10 border-t border-[#362822]/20 pt-6 text-sm text-[#EFE5D2]/80">© 2026 Nyumbani Interiors. Designed for modern living.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                lucide.createIcons({ attrs: { width: 16, height: 16 } });
+            } else {
+                console.warn('Lucide failed to load');
+            }
+        });
+
+    </script>
+    <script src="{% static 'scripts/script.js' %}"></script>
+</body>
+</html>

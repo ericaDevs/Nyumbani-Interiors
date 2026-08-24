@@ -1,0 +1,77 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    Dashboard | Overview
+{% endblock %}
+
+{% block content %}
+    <main class="font-mont w-full flex flex-col gap-6">
+        <!-- Welcome Banner & Quick Action Bar -->
+        <section class="font-mont bg-espresso border border-gold/10 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl my-6">
+            <div class="space-y-1">
+                <h1 class="text-2xl font-bold text-[#710912] tracking-tight">
+                    Welcome back, <span class="text-gold">{% if request.user.first_name %}{{ request.user.first_name }}{% else %}{{ request.user.username }}{% endif %}</span>
+                </h1>
+                <p class="text-xs text-champagne/60">
+                    Monitor and manage your portfolio projects, client consultations, and contact inquiries.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- Live Date Badge -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-midnight border border-gold/20 text-xs font-bold text-champagne/80">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-gold"></i>
+                    <span>{% now "D, d F Y" %}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="dashboard-analytics">
+            <div class="dashboard-primary-card flex items-center justify-between gap-3 p-5 pr-3 rounded-lg border-l-6 bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Projects</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ total_projects|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/layers.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+
+            <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Appointments</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ total_appointments|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/appointment.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+
+            <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Consultations</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ total_consultation|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/customer-support.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+
+            <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+                <div class="flex flex-col items-left">
+                    <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Contacts and Inquiries</p>
+                    <h3 class="text-2xl font-bold text-gold mt-1">{{ contacts|default:"0" }}</h3>
+                </div>
+                  
+                <span class="flex items-center justify-center m-auto opacity-75">
+                    <img src="{% static 'images/customer-service.png' %}" alt="project" class="w-12">
+                </span>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,446 @@
+{% extends 'layout.html' %} 
+{% load widget_tweaks %} 
+{% load static %} 
+{% block content %}
+
+<!-- Success / Alert Messages Block (centered overlay) -->
+{% if messages %}
+<div
+  class="fixed font-mont top-5 right-5 z-199 flex flex-col gap-3 max-w-md w-full px-4 pointer-events-none"
+>
+  {% for message in messages %}
+  <div
+    class="pointer-events-auto relative bg-[#C28D39] text-black border-l-4 border-l-[#422900] border-t border-r border-b border-gold/20 p-4 rounded-r-md shadow-2xl flex items-center justify-between gap-4"
+  >
+    <div class="flex items-center gap-3">
+      <div class="shrink-0 text-gold">
+        {% if message.tags == 'success' %}
+        <i data-lucide="check-circle" class="w-5 h-5 text-gold"></i>
+        {% else %}
+        <i data-lucide="alert-triangle" class="w-5 h-5 text-gold"></i>
+        {% endif %}
+      </div>
+      <p class="text-sm font-semibold">{{ message }}</p>
+    </div>
+
+    <button
+      type="button"
+      onclick="this.closest('.relative').remove()"
+      aria-label="Close"
+      class="text-champagne/80 hover:text-gold text-sm font-bold p-1 transition-colors"
+    >
+      ✕
+    </button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main
+  class="font-mont bg-midnight text-champagne selection:bg-gold selection:text-midnight"
+>
+  <section
+    id="hero"
+    class="relative overflow-hidden bg-cover bg-center"
+    style="
+      background-image:
+        linear-gradient(rgba(13, 13, 13, 0.55), rgba(13, 13, 13, 0.75)),
+        url(https://i.pinimg.com/736x/05/91/ca/0591ca12ea1bed46797519600c4d0b74.jpg);
+    "
+  >
+    <div class="absolute inset-0 bg-black/15"></div>
+    <div
+      class="relative mx-auto flex min-h-140 max-w-7xl items-center justify-center px-6 py-24 sm:py-32"
+    >
+      <div class="w-full max-w-3xl space-y-8 text-center text-white">
+        <p class="text-sm uppercase tracking-[0.35em] text-[#EFE5D2]">
+          Let’s start your project
+        </p>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl">
+          We’re here to help you create a space that feels truly yours.
+        </h1>
+        <p class="mx-auto max-w-2xl text-base leading-8 text-[#EFE5D2]/90">
+          Reach out for consultations, design support, and expert guidance
+          tailored to your home, office, or commercial space.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-hidden">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+      <!-- Left Column: Tall Featured Image -->
+      <div class="lg:col-span-4 relative group">
+        <div
+          class="relative w-full h-105 sm:h-125 lg:h-140 rounded-xl overflow-hidden shadow-2xl border border-gold/20"
+        >
+          <img
+            src="https://i.pinimg.com/736x/5c/8f/87/5c8f87f3533cdde8eb1ae5c9187119b2.jpg"
+            alt="Nyumbani Interiors Living Space"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/10"></div>
+        </div>
+      </div>
+
+      <!-- Middle Column: Headline & Narrative Content -->
+      <div class="lg:col-span-5 flex flex-col justify-center space-y-6 lg:px-2">
+        <span class="text-xs font-bold uppercase tracking-widest text-gold">
+          Welcome to Nyumbani Interiors
+        </span>
+        <h2
+          class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#710912] tracking-tight leading-tight"
+        >
+          Let’s Design Your Dream Sanctuary
+        </h2>
+        <p
+          class="text-champagne/75 text-sm sm:text-base leading-relaxed md:text-sm"
+        >
+          Whether you are planning a complete residential transformation, an
+          executive commercial fit-out, or bespoke joinery, our design studio is
+          ready to bring your vision to life from initial sketch to final
+          installation.
+        </p>
+        <div class="pt-2">
+          <a
+            href="{% url 'appointment' %}"
+            class="inline-block px-8 py-3.5 bg-[#C28D39] text-black font-semibold rounded-md shadow-lg hover:opacity-90 transition-all duration-300"
+          >
+            Book an Appointment
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Offset Accent Interior/Office Image -->
+      <div class="hidden md:block lg:col-span-3 mt-4 lg:mt-16">
+        <div
+          class="relative w-full h-65 sm:h-80 lg:h-85 rounded-xl overflow-hidden shadow-xl border border-gold/20 group"
+        >
+          <img
+            src="https://i.pinimg.com/1200x/27/36/ec/2736ecbe15cf22037ad5d115b63a38ba.jpg"
+            alt="Nyumbani Design Studio & Consultation Office"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/15"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Get In Touch & Form Section -->
+  <section class="py-24 bg-[#EFE5D2] px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <!-- Left Info Details (2x2 Grid Layout) -->
+      <div class="lg:col-span-5 space-y-8">
+        <div>
+          <span class="text-xs font-bold text-gold tracking-widest uppercase"
+            >CONTACT US</span
+          >
+          <h2
+            class="text-3xl md:text-4xl font-bold text-champagne mt-2 leading-tight"
+          >
+            Get In <span class="text-gold">Touch</span>
+          </h2>
+          <p class="text-champagne/70 text-sm mt-4 leading-relaxed">
+            We would love to discuss your spatial vision. Reach out to our
+            design team to start creating your bespoke environment.
+          </p>
+        </div>
+
+        <!-- 2x2 Contact Details Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+          <!-- Phone -->
+          <div class="flex items-start gap-4">
+            <div
+              class="w-10 h-10 rounded-full bg-burgundy/30 border border-gold/20 flex items-center justify-center text-gold shrink-0"
+            >
+              <i data-lucide="phone" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4
+                class="text-xs font-bold text-champagne uppercase tracking-wider"
+              >
+                Phone Number
+              </h4>
+              <p class="text-xs text-champagne/70 mt-1">+254 712 345 678</p>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="flex items-start gap-4">
+            <div
+              class="w-10 h-10 rounded-full bg-burgundy/30 border border-gold/20 flex items-center justify-center text-gold shrink-0"
+            >
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4
+                class="text-xs font-bold text-champagne uppercase tracking-wider"
+              >
+                Email Address
+              </h4>
+              <p class="text-xs text-champagne/70 mt-1">hello@nyumbani.co.ke</p>
+            </div>
+          </div>
+
+          <!-- Website -->
+          <div class="flex items-start gap-4">
+            <div
+              class="w-10 h-10 rounded-full bg-burgundy/30 border border-gold/20 flex items-center justify-center text-gold shrink-0"
+            >
+              <i data-lucide="globe" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4
+                class="text-xs font-bold text-champagne uppercase tracking-wider"
+              >
+                Website
+              </h4>
+              <p class="text-xs text-champagne/70 mt-1">www.nyumbani.co.ke</p>
+            </div>
+          </div>
+
+          <!-- Address -->
+          <div class="flex items-start gap-4">
+            <div
+              class="w-10 h-10 rounded-full bg-burgundy/30 border border-gold/20 flex items-center justify-center text-gold shrink-0"
+            >
+              <i data-lucide="map-pin" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4
+                class="text-xs font-bold text-champagne uppercase tracking-wider"
+              >
+                Address
+              </h4>
+              <p class="text-xs text-champagne/70 mt-1">
+                12 Design Street, Nairobi, Kenya
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form Fields -->
+      <div
+        class="lg:col-span-7 bg-espresso p-8 md:p-10 rounded-lg border border-gold/10 shadow-2xl"
+      >
+        <form class="space-y-6" action="{% url 'contacts' %}" method="POST">
+          <h2
+            class="text-2xl md:text-3xl font-extrabold text-[#710912] mt-2 leading-tight"
+          >
+            Say Hello to Your New Space
+          </h2>
+
+          {% csrf_token %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {% render_field form.name class="w-full bg-midnight text-champagne border border-gold/20 p-4 rounded text-xs focus:ring-1 focus:ring-gold focus:border-gold outline-none placeholder:text-champagne/40" placeholder="e.g. Erika Lorot" %} 
+            {% if form.name.errors %}
+            <p class="text-red-500 text-xs">{{ form.name.errors|first }}</p>
+            {% endif %}
+          </div>
+
+          <div>
+            {% render_field form.email class="w-full bg-midnight text-champagne border border-gold/20 p-4 rounded text-xs focus:ring-1 focus:ring-gold focus:border-gold outline-none placeholder:text-champagne/40" placeholder="e.g. erika@nyumbani.co.ke" %} 
+            {% if form.email.errors %}
+            <p class="text-red-500 text-xs">{{ form.email.errors|first }}</p>
+            {% endif %}
+          </div>
+
+          <div>
+            {% render_field form.subject class="w-full bg-midnight text-champagne border border-gold/20 p-4 rounded text-xs focus:ring-1 focus:ring-gold focus:border-gold outline-none placeholder:text-champagne/40" placeholder="Your Subject" %} 
+            {% if form.subject.errors %}
+            <p class="text-red-500 text-xs">{{ form.subject.errors|first }}</p>
+            {% endif %}
+          </div>
+
+          <div>
+            {% render_field form.message class="w-full bg-midnight text-champagne border border-gold/20 p-4 rounded text-xs focus:ring-1 focus:ring-gold focus:border-gold outline-none placeholder:text-champagne/40" placeholder="Your Message" rows="5" %}
+            {% if form.message.errors %}
+            <p class="text-red-500 text-xs">{{ form.message.errors|first }}</p>
+            {% endif %}
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              class="cursor-pointer bg-[#710912] text-white hover:bg-[#710912]/80 text-xs font-bold py-3.5 px-8 rounded tracking-wider uppercase transition-all duration-300 shadow-lg border border-gold/20"
+            >
+              Send message
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Consultation Banner (Full Width Dark Section with Designer/Architect Image) -->
+  <section class="bg-espresso py-20 px-6 md:px-12">
+    <div
+      class="max-w-7xl mx-auto flex flex-col gap-6 md:flex-row items-center justify-center md:gap-8"
+    >
+      <!-- Designer / Architect Image -->
+      <div class="rounded-lg overflow-hidden shadow-2xl w-80 md:w-200 h-95">
+        <img
+          src="https://i.pinimg.com/736x/38/a8/dc/38a8dc7bdd268bdb9c90e25b3be01752.jpg"
+          alt="Interior Design Consultant"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Consultation Text & Key Points -->
+      <div class="lg:col-span-8 space-y-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-champagne leading-tight">
+          Consult the services you<br /><span class="text-gold">need now!</span>
+        </h2>
+        <p class="text-champagne/70 text-sm leading-relaxed max-w-2xl">
+          Our team of experienced spatials planners and interior architects are
+          available to guide your transformation from structural evaluation to
+          final curation.
+        </p>
+
+        <!-- Checkmarks Row -->
+        <div
+          class="flex flex-wrap items-center gap-6 text-xs font-semibold text-champagne/90 pt-2"
+        >
+          <div class="flex items-center gap-2">
+            <span
+              class="w-4 h-4 rounded-full bg-gold/20 border border-gold text-gold flex items-center justify-center"
+            >
+              <i data-lucide="check" class="w-3 h-3"></i>
+            </span>
+            <span>Fast turnarounds</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span
+              class="w-4 h-4 rounded-full bg-gold/20 border border-gold text-gold flex items-center justify-center"
+            >
+              <i data-lucide="check" class="w-3 h-3"></i>
+            </span>
+            <span>Transparent Price</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span
+              class="w-4 h-4 rounded-full bg-gold/20 border border-gold text-gold flex items-center justify-center"
+            >
+              <i data-lucide="check" class="w-3 h-3"></i>
+            </span>
+            <span>Global Delivery Area</span>
+          </div>
+        </div>
+
+        <div class="pt-4">
+          <a
+            href="/services"
+            class="inline-block bg-[#710912] hover:bg-[#710912]/80 text-white text-xs font-bold py-3.5 px-8 rounded uppercase tracking-wider transition-all duration-300 border border-gold/20 shadow-lg"
+          >
+            View Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Our Offices Located All Over The World -->
+  <section class="bg-[#EFE5D2] py-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Office Locations List -->
+      <div class="lg:col-span-7 space-y-8">
+        <div>
+          <span class="text-xs font-bold text-gold tracking-widest uppercase"
+            >OUR OFFICES</span
+          >
+          <h2
+            class="text-3xl md:text-4xl font-bold text-champagne mt-2 leading-tight"
+          >
+            Our Offices <span class="text-gold">Located</span> All<br />Over The
+            World
+          </h2>
+          <p class="text-champagne/70 text-sm mt-4 leading-relaxed max-w-xl">
+            With design studios in key architectural capitals, our team provides
+            global project management and local artisan sourcing.
+          </p>
+        </div>
+
+        <!-- Office Cards Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+          <!-- Head Office Card -->
+          <div
+            class="bg-espresso p-6 rounded-lg border border-gold/10 space-y-4 shadow-xl"
+          >
+            <div>
+              <h3 class="font-bold text-lg text-gold">Nairobi</h3>
+              <span
+                class="text-[10px] text-champagne/60 uppercase tracking-widest"
+                >Head Office</span
+              >
+            </div>
+            <div class="space-y-3 text-xs text-champagne/80">
+              <div class="flex items-start gap-3">
+                <i
+                  data-lucide="home"
+                  class="w-4 h-4 text-gold shrink-0 mt-0.5"
+                ></i>
+                <span>12 Design Street, Westlands, Nairobi</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="phone" class="w-4 h-4 text-gold shrink-0"></i>
+                <span>+254 712 345 678</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="mail" class="w-4 h-4 text-gold shrink-0"></i>
+                <span>nairobi@nyumbani.co.ke</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Branch Office Card -->
+          <div
+            class="bg-espresso p-6 rounded-lg border border-gold/10 space-y-4 shadow-xl"
+          >
+            <div>
+              <h3 class="font-bold text-lg text-gold">Mombasa</h3>
+              <span
+                class="text-[10px] text-champagne/60 uppercase tracking-widest"
+                >Branch Studio</span
+              >
+            </div>
+            <div class="space-y-3 text-xs text-champagne/80">
+              <div class="flex items-start gap-3">
+                <i
+                  data-lucide="home"
+                  class="w-4 h-4 text-gold shrink-0 mt-0.5"
+                ></i>
+                <span>88 Mayfair Avenue, Mombasa</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="phone" class="w-4 h-4 text-gold shrink-0"></i>
+                <span>+254 712 345 678</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="mail" class="w-4 h-4 text-gold shrink-0"></i>
+                <span>mombasa@nyumbani.co.ke</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Showcase Image -->
+      <div class="lg:col-span-5">
+        <div class="rounded-lg overflow-hidden shadow-2xl">
+          <img
+            src="https://i.pinimg.com/1200x/1d/8a/fd/1d8afd21770ab7c7ccd3569d0ee6d6d9.jpg"
+            alt="Architects Onsite Consultation"
+            class="w-full h-112.5 object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+  lucide.createIcons();
+</script>
+{% endblock %}

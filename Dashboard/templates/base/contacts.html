@@ -1,0 +1,208 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Dashboard | Contacts
+{% endblock %}
+
+{% block content %}
+    <!-- Section 4: Contacts Tab -->
+    <section id="section-contacts" class="tab-section hidden space-y-6">
+        <h1 class="text-2xl font-bold text-champagne">Contact Messages</h1>
+        <div class="bg-espresso rounded-lg border border-gold/10 p-6 text-xs text-champagne/70">
+            <p>Messages submitted through the contact form will render here.</p>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="dashboard-analytics">
+        <div class="flex items-center justify-between gap-3 p-5 pr-3 rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Projects</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ total_projects|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/layers.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+
+        <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Appointments</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ total_appointments|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/appointment.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+
+        <div class="gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 border-[#710912] bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Total Consultations</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ total_consultation|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/customer-support.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+
+        <div class="dashboard-primary-card gap-3 p-5 pr-3 flex items-center justify-between rounded-lg border-l-6 bg-[#EFE5D2]">
+            <div class="flex flex-col items-left">
+                <p class="text-[10px] text-champagne/60 font-bold uppercase tracking-wider">Contacts and Inquiries</p>
+                <h3 class="text-2xl font-bold text-gold mt-1">{{ total_contacts|default:"0" }}</h3>
+            </div>
+              
+            <span class="flex items-center justify-center m-auto opacity-75">
+                <img src="{% static 'images/customer-service.png' %}" alt="project" class="w-12">
+            </span>
+        </div>
+    </div>
+
+    <!-- Contacts Table -->
+    <div class="bg-[#EFE5D2] rounded-lg border border-gold/10 overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-champagne">
+                <thead class="bg-midnight/80 border-b border-gold/10 uppercase text-[10px] text-gold tracking-wider">
+                    <tr>
+                        <th class="p-4">Name</th>
+                        <th class="p-4">Email</th>
+                        <th class="p-4">Subject</th>
+                        <th class="p-4">Message</th>
+                        <th class="p-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gold/10">
+                    {% for contact in contacts %}
+                    <tr class="">
+                        <td class="p-4 text-champagne/70">{{ contact.name }}</td>
+                        <td class="p-4 font-bold text-champagne">{{ contact.email }}</td>
+                        <td class="p-4 text-champagne/70">{{ contact.subject }}</td>
+                        <td class="p-4 text-champagne/70 max-w-xs truncate">{{ contact.message }}</td>
+
+                        <td class="p-4 text-[#8b7f67] flex items-center justify-end text-sm gap-3">
+                            <button type="button" 
+                                class="p-1 text-gold hover:text-[#710912] transition-colors cursor-pointer" 
+                                title="View Contact Message"
+                                data-name="{{ contact.name|escapejs }}"
+                                data-email="{{ contact.email|escapejs }}"
+                                data-subject="{{ contact.subject|escapejs }}"
+                                data-message="{{ contact.message|escapejs }}"
+                                onclick="openViewContactModal(this)">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+
+                            <a href="mailto:{{ contact.email }}?subject=Re:%20{{ contact.subject|urlencode }}" 
+                               class="p-1 text-gold hover:text-[#710912] transition-colors" 
+                               title="Reply via Email">
+                                <i data-lucide="reply" class="w-4 h-4"></i>
+                            </a>
+
+                            <form action="{% url 'dashboard:deleteContact' id=contact.id %}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this contact inquiry permanently?');">
+                                {% csrf_token %}
+                                <button type="submit" class="p-1 text-red-600 hover:text-red-800 transition-colors cursor-pointer" title="Delete Inquiry">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="p-8 text-center text-xs text-champagne/50">No Contacts found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: View Contact Details -->
+    <div id="viewContactModal" class="fixed inset-0 bg-[#EFE5D2]/60 backdrop-blur-xs z-50 hidden items-center justify-center font-mont p-4 transition-opacity duration-300">
+        <!-- Dialog Box Container -->
+        <div class="bg-white m-auto border border-gold/30 rounded-xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative text-champagne">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b border-gold/20 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-[#710912]/10 flex items-center justify-center text-[#710912]">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-[#710912] tracking-wide">Contact Inquiry Details</h3>
+                </div>
+                <button type="button" onclick="closeViewContactModal()" class="text-champagne/60 cursor-pointer hover:text-gold transition-colors p-1 rounded-lg">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Body Details -->
+            <div class="space-y-4 text-xs">
+                <div class="grid grid-cols-2 gap-4 bg-[#fbf9f5] p-3 rounded-lg border border-gold/10">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Sender Name</span>
+                        <p id="view-m-name" class="font-bold text-sm text-[#710912] mt-0.5"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-champagne/60 block">Email Address</span>
+                        <p id="view-m-email" class="text-champagne font-medium mt-0.5 break-all"></p>
+                    </div>
+                </div>
+
+                <div class="bg-[#fbf9f5] p-3 rounded-lg border border-gold/10">
+                    <span class="text-[10px] uppercase font-bold text-champagne/60 block">Subject</span>
+                    <p id="view-m-subject" class="text-champagne font-semibold text-sm mt-0.5"></p>
+                </div>
+
+                <div>
+                    <span class="text-[10px] uppercase font-bold text-champagne/60 block mb-1">Message</span>
+                    <div id="view-m-message" class="bg-[#fbf9f5] p-3 rounded-lg border border-gold/10 text-champagne text-xs leading-relaxed max-h-48 overflow-y-auto whitespace-pre-wrap"></div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="pt-4 border-t border-gold/20 flex items-center justify-between gap-3">
+                <a id="view-m-reply-btn" href="#" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-[#EFE5D2] text-[#710912] font-bold text-xs hover:bg-[#e0d0b2] transition-colors flex-1 text-center">
+                    <i data-lucide="reply" class="w-3.5 h-3.5"></i>
+                    <span>Reply Email</span>
+                </a>
+                <button type="button" onclick="closeViewContactModal()" class="px-5 py-2.5 cursor-pointer rounded text-white font-bold bg-[#710912] hover:bg-[#57070d] transition-colors text-xs uppercase tracking-wider shadow-md flex-1">Close</button>
+            </div>
+        </div> 
+    </div>
+
+    <script>
+        function openViewContactModal(button) {
+            const modal = document.getElementById('viewContactModal');
+            
+            const name = button.getAttribute('data-name');
+            const email = button.getAttribute('data-email');
+            const subject = button.getAttribute('data-subject');
+            const message = button.getAttribute('data-message');
+            
+            document.getElementById('view-m-name').textContent = name || 'N/A';
+            document.getElementById('view-m-email').textContent = email || 'N/A';
+            document.getElementById('view-m-subject').textContent = subject || 'N/A';
+            document.getElementById('view-m-message').textContent = message || 'No message provided.';
+            
+            const replyBtn = document.getElementById('view-m-reply-btn');
+            replyBtn.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent('Re: ' + subject)}`;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (window.lucide) { lucide.createIcons(); }
+        }
+
+        function closeViewContactModal() {
+            const modal = document.getElementById('viewContactModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.getElementById('viewContactModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeViewContactModal();
+            }
+        });
+    </script>
+{% endblock %}
