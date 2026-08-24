@@ -83,18 +83,16 @@ WSGI_APPLICATION = 'IntDesigns.wsgi.application'
 
 raw_db_url = os.environ.get('DATABASE_URL', '').strip()
 
-if raw_db_url:
-    DATABASES = {
-        'default': dj_database_url.parse(raw_db_url, conn_max_age=600)
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
