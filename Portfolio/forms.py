@@ -9,7 +9,6 @@ class CreateNewProject(forms.ModelForm):
     def clean_description(self):
         description = self.cleaned_data.get('description')
         if description:
-            # Decode escaped unicode characters back into plain text
-            description = description.encode().decode('unicode-escape')
+            return description.strip()
         return description
 

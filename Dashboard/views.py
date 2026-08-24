@@ -44,6 +44,7 @@ def logout_user(request):
 
 
 # ADMIN DASHBOARD
+@login_required
 def overview(request):
     projects = Project.objects.all()
     total_projects = projects.count()
