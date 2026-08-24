@@ -24,6 +24,19 @@ def login_user(request):
             return render(request, "base/login.html")
 
         user = authenticate(request, username=username, password=password)
+        if user is None:
+            from django.contrib.auth import get_user_model
+            UserModel = get_user_model()
+            try:
+                # Try finding user by email or case-insensitive username
+                user_obj = UserModel.objects.filter(email__iexact=username).first()
+                if not user_obj:
+                    user_obj = UserModel.objects.filter(username__iexact=username).first()
+                if user_obj:
+                    user = authenticate(request, username=user_obj.username, password=password)
+            except Exception:
+                pass
+
         if user is not None:
             login(request, user)
             messages.success(request, "Logged in successfully!")
